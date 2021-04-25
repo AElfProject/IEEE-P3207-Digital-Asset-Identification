@@ -1,0 +1,139 @@
+# IEEE Standard for Blockchainbased Digital Asset Identification
+<a name="top"></a>
+
+[TOC]
+
+## Overview
+### Background
+The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.
+
+### Scope
+* Define the data structure related to digital asset identification;
+* Define data format specifications related to digital asset identification;
+* Propose asset management operation specifications related to digital asset identification.
+
+### Purpose
+This standard defines the data structure related to asset identification to improve the digital asset management efficiency, provide guidance for the design of digital asset management solutions, and provide a reference for building a digital asset service platform.
+
+## Normative references
+The following referenced documents are indispensable for the application of this document (i.e., they must be understood and used, so each referenced document is cited in text and its relationship to this document is explained). For dated references, only the edition cited applies. For undated references, the latest edition of the referenced document (including any amendments or corrigenda) applies.
+
+## Definitions, abbreviations and acronyms
+### Definitions
+
+* **Blockchain**: Distributed ledger with confirmed blocks organized in an append-only,sequential chain using cryptographic links.
+
+  NOTE-See[[B1]](#B1)
+
+* **Digital asset**: Asset that exist only in digital form or which is the digital representation of another asset.
+
+  NOTE-See[[B1]](#B1)
+
+* **Token**: Digital asset that represents a collection of entitlements.
+
+  NOTE-See[[B1]](#B1)
+
+* **Fungible Token**: Fungible Tokens have a property that makes each Token be exactly the same (in type and value) of another Token.
+
+  NOTE-See[[B2]](#B2)
+
+* **Non-Fungible Token**: A Non-Fungible Token (NFT) is used to identify something or someone in a unique way.
+  NOTE-See[[B3]](#B3)
+
+### Abbreviations and acronyms
+* **FT**: Fungible Token.
+
+* **NFT**: Non-Fungible Token.
+
+{{range .Files}}
+{{$file_name := .Name}}
+<a name="{{.Name}}"></a>
+
+## Specfication
+
+{{.Description}}
+
+{{range .Services}}
+<a name="{{.FullName}}"></a>
+
+### Methods
+{{.Description}}
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+{{range .Methods -}}
+  | {{.Name}} | [{{.RequestLongType}}](#{{.RequestFullType}}){{if .RequestStreaming}} stream{{end}} | [{{.ResponseLongType}}](#{{.ResponseFullType}}){{if .ResponseStreaming}} stream{{end}} | {{nobr .Description}} |
+{{end}}
+{{end}} <!-- end services -->
+
+### Data structures
+{{range .Messages}}
+<a name="{{.FullName}}"></a>
+
+* **{{.LongName}}**
+{{.Description}}
+
+{{if .HasFields}}
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+{{range .Fields -}}
+  | {{.Name}} | [{{.LongType}}](#{{.FullType}}) | {{.Label}} | {{if (index .Options "deprecated"|default false)}}**Deprecated.** {{end}}{{nobr .Description}}{{if .DefaultValue}} Default: {{.DefaultValue}}{{end}} |
+{{end}}
+{{end}}
+
+{{if .HasExtensions}}
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+{{range .Extensions -}}
+  | {{.Name}} | {{.LongType}} | {{.ContainingLongType}} | {{.Number}} | {{nobr .Description}}{{if .DefaultValue}} Default: {{.DefaultValue}}{{end}} |
+{{end}}
+{{end}}
+
+{{end}} <!-- end messages -->
+
+### Others
+{{range .Enums}}
+<a name="{{.FullName}}"></a>
+
+* **{{.LongName}}**
+{{.Description}}
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+{{range .Values -}}
+  | {{.Name}} | {{.Number}} | {{nobr .Description}} |
+{{end}}
+
+{{end}} <!-- end enums -->
+
+{{if .HasExtensions}}
+<a name="{{$file_name}}-extensions"></a>
+
+* **File-level Extensions**
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+{{range .Extensions -}}
+  | {{.Name}} | {{.LongType}} | {{.ContainingLongType}} | {{.Number}} | {{nobr .Description}}{{if .DefaultValue}} Default: `{{.DefaultValue}}`{{end}} |
+{{end}}
+{{end}} <!-- end HasExtensions -->
+
+{{end}}
+
+* **Scalar Value Types**
+
+| .proto Type | Notes | C++ | Java | Python | Go | C# | PHP | Ruby |
+| ----------- | ----- | --- | ---- | ------ | -- | -- | --- | ---- |
+{{range .Scalars -}}
+  | <a name="{{.ProtoType}}" /> {{.ProtoType}} | {{.Notes}} | {{.CppType}} | {{.JavaType}} | {{.PythonType}} | {{.GoType}} | {{.CSharp}} | {{.PhpType}} | {{.RubyType}} |
+{{end}}
+
+## Bibliography
+
+Bibliographical references are resources that provide additional or helpful material but do not need to be
+understood or used to implement this standard. Reference to these resources is made for informational use only.
+
+<span id="B1">[B1] ISO 22739:2020(en), Blockchain and distributed ledger technologies—Vocabulary.</span>
+
+<span id="B2">[B2] ERC-20 Token Standard.</span>
+
+<span id="B3">[B3] ERC-721 Token Standard.</span>
