@@ -44,11 +44,14 @@ extend google.protobuf.FieldOptions {
 }
 
 service TokenContract {
-    // Create a new token.
+    // Creating a new token serves as a user's proof of interest. 
+    // The token can be circulated in the blockchain system with their unique characteristics,
+    // such as, Encryption, immutable, uniqueness.
+    // And token has certain economic value.
     rpc Create (CreateInput) returns (Empty) {
     }
     
-    // Issuing some amount of tokens to an address is the action of increasing that addresses balance 
+    // Issuing some amount of tokens to an address is the action of increasing that address' balance 
     // for the given token. The total amount of issued tokens must not exceed the total supply of the token 
     // and only the issuer (creator) of the token can issue tokens. 
     // Issuing tokens effectively increases the circulating supply.
@@ -74,43 +77,48 @@ service TokenContract {
     }
 
     // The approve action increases the allowance from the Sender to the Spender address, 
-    // enabling the Spender to call TransferFrom.
+    // enabling the Spender to call TransferFrom and approve a certain amount of transactions
+    // and to extract a certain amount of money.
     rpc Approve (ApproveInput) returns (Empty) {
     }
     
-    // This is the reverse operation for Approve, it will decrease the allowance.
+    // This is the reverse operation for Approve, it will decrease the allowance 
+    // and revoke permission from operation of Approve.
     rpc UnApprove (UnApproveInput) returns (Empty) {
     }
     
-    // This method can be used to lock tokens.
+    // This method is used to lock tokens with specific symbol.
     rpc Lock (LockInput) returns (Empty) {
     }
     
-    // This is the reverse operation of locking, it un-locks some previously locked tokens.
+    // This is the reverse operation of Lock, which un-locks some previously locked tokens.
     rpc Unlock (UnlockInput) returns (Empty) {
     }
     
-    // This action will burn the specified amount of tokens, removing them from the token’s Supply.
+    // This action will burn the specified amount of tokens which are burnable,
+    // and remove them from the token’s Supply.
     rpc Burn (BurnInput) returns (Empty) {
     }
     
-    // Change the issuer of the specified token. Only the original issuer can change it.
+    // Change the issuer of the specified token.
+    // Only the original issuer can change it.
     rpc ChangeTokenIssuer (ChangeTokenIssuerInput) returns (Empty) {
     }
 
-    // Set the primary token of side chain.
+    // Set the symbol of token issued for a side chain or a party.
     rpc SetPrimaryTokenSymbol (SetPrimaryTokenSymbolInput) returns (Empty) {
     }
     
-    // This interface is used for cross-chain transfer.
+    // This interface is a cross-chain transfer transation.
     rpc CrossChainTransfer (CrossChainTransferInput) returns (Empty) {
     }
     
-    // This method is used to receive cross-chain transfers.
+    // This method is used to receive cross-chain transfer transactions.
     rpc CrossChainReceiveToken (CrossChainReceiveTokenInput) returns (Empty) {
     }
     
-    // The side chain creates tokens.
+    // This method is to deal with the info of tokens created by other chains,
+    // which exist in transfer transactions.
     rpc CrossChainCreateToken(CrossChainCreateTokenInput) returns (Empty) {        
     }
     
@@ -122,19 +130,19 @@ service TokenContract {
     rpc ClaimTransactionFees (TotalTransactionFeesMap) returns (Empty) {
     }
     
-    // Used to collect transaction fees.
+    // This method is used to collect transaction fees.
     rpc ChargeTransactionFees (ChargeTransactionFeesInput) returns (ChargeTransactionFeesOutput) {
     }
 
-    // Check the token threshold.
+    // This method is to check whether the token fit the token threshold identified.
     rpc CheckThreshold (CheckThresholdInput) returns (Empty) {
     }
 
-    // Initialize coefficients of every type of tokens supporting charging fee.
+    // This method is to initialize coefficients of every type of tokens supporting charging fee.
     rpc InitialCoefficients (Empty) returns (Empty){
     }
     
-    // Processing resource token received.
+    // This method is to process resource token received.
     rpc DonateResourceToken (TotalResourceTokensMaps) returns (Empty) {
     }
     
@@ -142,54 +150,54 @@ service TokenContract {
     rpc ChargeResourceToken (ChargeResourceTokenInput) returns (Empty) {
     }
     
-    // Verify that the resource token are sufficient.
+    // This method is to verify whether the resource token are sufficient.
     rpc CheckResourceToken (Empty) returns (Empty) {
     }
     
-    // Set the list of tokens to pay transaction fees.
+    // This method is to set the list of tokens to pay transaction fees.
     rpc SetSymbolsToPayTxSizeFee (SymbolListToPayTxSizeFee) returns (Empty){
     }
     
-    // Update the coefficient of the transaction fee calculation formula.
+    // This method is to update the coefficient of the transaction fee calculation formula.
     rpc UpdateCoefficientsForSender (UpdateCoefficientsInput) returns (Empty) {
     }
     
-    // Update the coefficient of the transaction fee calculation formula.
+    // This method is to update the coefficient of the transaction fee calculation formula.
     rpc UpdateCoefficientsForContract (UpdateCoefficientsInput) returns (Empty) {
     }
     
     // This method is used to initialize the governance organization for some functions, 
-    // including: the coefficient of the user transaction fee calculation formula, 
+    // including the coefficient of the user transaction fee calculation formula, 
     // the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee.
     rpc InitializeAuthorizedController(Empty) returns (Empty){
     }
 
-    // Query token information.
+    // View method to query token information.
     rpc GetTokenInfo (GetTokenInfoInput) returns (TokenInfo) {
         option (is_view) = true;
     }
     
-    // Query native token information.
+    // View method to query native token information.
     rpc GetNativeTokenInfo (Empty) returns (TokenInfo) {
         option (is_view) = true;
     }
     
-    // Query resource token information.
+    // View method to query resource token information.
     rpc GetResourceTokenInfo (Empty) returns (TokenInfoList) {
         option (is_view) = true;
     }
     
-    // Query the balance at the specified address.
+    // View method to query the balance at the specified address.
     rpc GetBalance (GetBalanceInput) returns (GetBalanceOutput) {
         option (is_view) = true;
     }
 
-    // Batch query the balance at the specified address.
+    // View method to batch query the balance at the specified address.
     rpc GetBalanceBatch (GetBalanceBatchInput) returns (GetBalanceBatchOutput) {
     option (is_view) = true;
         }
 
-    // Query the account's allowance for other addresses
+    // View method to query the account's allowance for other addresses
     rpc GetAllowance (GetAllowanceInput) returns (GetAllowanceOutput) {
         option (is_view) = true;
     }
@@ -200,45 +208,47 @@ service TokenContract {
         option (is_view) = true;
     }
     
-    // Query the information for a lock.
+    // View method to query the information for a lock.
     rpc GetLockedAmount (GetLockedAmountInput) returns (GetLockedAmountOutput) {
         option (is_view) = true;
     }
     
-    // Query the address of receiving token in cross-chain transfer.
+    // View method to query the address of receiving token in cross-chain transfer.
     rpc GetCrossChainTransferTokenContractAddress (GetCrossChainTransferTokenContractAddressInput) returns (Address) {
         option (is_view) = true;
     }
     
-    // Query the name of the primary Token.
+    //  View method to query the name of the primary Token.
     rpc GetPrimaryTokenSymbol (Empty) returns (StringValue) {
         option (is_view) = true;
     }
     
-    // Query the coefficient of the transaction fee calculation formula.
+    //  View method to query the coefficient of the transaction fee calculation formula.
     rpc GetCalculateFeeCoefficientsForContract (Int32Value) returns (CalculateFeeCoefficients) {
         option (is_view) = true;
     }
 
-    // Query the coefficient of the transaction fee calculation formula.
+    //  View method to query the coefficient of the transaction fee calculation formula.
     rpc GetCalculateFeeCoefficientsForSender (Empty) returns (CalculateFeeCoefficients) {
         option (is_view) = true;
     }
     
-    // Query tokens that can pay transaction fees.
+    //  View method to query tokens that can pay transaction fees.
     rpc GetSymbolsToPayTxSizeFee (Empty) returns (SymbolListToPayTxSizeFee){
         option (is_view) = true;
     }
     
-    // Query the hash of the last input of ClaimTransactionFees.
+    //  View method to query the hash of the last input of ClaimTransactionFees.
     rpc GetLatestTotalTransactionFeesMapHash (Empty) returns (Hash){
         option (is_view) = true;
     }
     
-    // Query the hash of the last input of DonateResourceToken.
+    //  View method to query the hash of the last input of DonateResourceToken.
     rpc GetLatestTotalResourceTokensMapsHash (Empty) returns (Hash){
         option (is_view) = true;
     }
+
+    //This method is to judge wether the token is available for method fee.
     rpc IsTokenAvailableForMethodFee (StringValue) returns (BoolValue) {
         option (is_view) = true;
     }

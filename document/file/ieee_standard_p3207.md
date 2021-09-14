@@ -47,7 +47,7 @@ The following referenced documents are indispensable for the application of this
 
 
 
-<a name="contract/token_contract.proto"></a>
+<a name="token_contract.proto"></a>
 
 ## Specfication
 
@@ -61,49 +61,49 @@ The following referenced documents are indispensable for the application of this
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Create | [CreateInput](#token.CreateInput) | [Empty](#token.Empty) | Create a new token. |
-| Issue | [IssueInput](#token.IssueInput) | [Empty](#token.Empty) | Issuing some amount of tokens to an address is the action of increasing that addresses balance for the given token. The total amount of issued tokens must not exceed the total supply of the token and only the issuer (creator) of the token can issue tokens. Issuing tokens effectively increases the circulating supply. |
+| Create | [CreateInput](#token.CreateInput) | [Empty](#token.Empty) | Creating a new token serves as a user's proof of interest. The token can be circulated in the blockchain system with their unique characteristics, such as, Encryption, immutable, uniqueness. And token has certain economic value. |
+| Issue | [IssueInput](#token.IssueInput) | [Empty](#token.Empty) | Issuing some amount of tokens to an address is the action of increasing that address' balance for the given token. The total amount of issued tokens must not exceed the total supply of the token and only the issuer (creator) of the token can issue tokens. Issuing tokens effectively increases the circulating supply. |
 | Transfer | [TransferInput](#token.TransferInput) | [Empty](#token.Empty) | Transferring tokens simply is the action of transferring a given amount of tokens from one address to another. The origin or source address is the signer of the transaction. The balance of the sender must be higher than the amount that is transferred. |
 | TransferFrom | [TransferFromInput](#token.TransferFromInput) | [Empty](#token.Empty) | The TransferFrom action will transfer a specified amount of tokens from one address to another. For this operation to succeed the from address needs to have approved (see allowances) enough tokens to Sender of this transaction. If successful the amount will be removed from the allowance. |
 | BatchTransferFrom | [BatchTransferFromInput](#token.BatchTransferFromInput) | [Empty](#token.Empty) | The BatchTransferFrom action will transfer a batch of specified amount of tokens from one address to another. For this operation to succeed the from address needs to have approved (see allowances) enough tokens to Sender of this transaction. If successful the amount will be removed from the allowance. |
-| Approve | [ApproveInput](#token.ApproveInput) | [Empty](#token.Empty) | The approve action increases the allowance from the Sender to the Spender address, enabling the Spender to call TransferFrom. |
-| UnApprove | [UnApproveInput](#token.UnApproveInput) | [Empty](#token.Empty) | This is the reverse operation for Approve, it will decrease the allowance. |
-| Lock | [LockInput](#token.LockInput) | [Empty](#token.Empty) | This method can be used to lock tokens. |
-| Unlock | [UnlockInput](#token.UnlockInput) | [Empty](#token.Empty) | This is the reverse operation of locking, it un-locks some previously locked tokens. |
-| Burn | [BurnInput](#token.BurnInput) | [Empty](#token.Empty) | This action will burn the specified amount of tokens, removing them from the token’s Supply. |
+| Approve | [ApproveInput](#token.ApproveInput) | [Empty](#token.Empty) | The approve action increases the allowance from the Sender to the Spender address, enabling the Spender to call TransferFrom and approve a certain amount of transactions and to extract a certain amount of money. |
+| UnApprove | [UnApproveInput](#token.UnApproveInput) | [Empty](#token.Empty) | This is the reverse operation for Approve, it will decrease the allowance and revoke permission from operation of Approve. |
+| Lock | [LockInput](#token.LockInput) | [Empty](#token.Empty) | This method is used to lock tokens with specific symbol. |
+| Unlock | [UnlockInput](#token.UnlockInput) | [Empty](#token.Empty) | This is the reverse operation of Lock, which un-locks some previously locked tokens. |
+| Burn | [BurnInput](#token.BurnInput) | [Empty](#token.Empty) | This action will burn the specified amount of tokens which are burnable, and remove them from the token’s Supply. |
 | ChangeTokenIssuer | [ChangeTokenIssuerInput](#token.ChangeTokenIssuerInput) | [Empty](#token.Empty) | Change the issuer of the specified token. Only the original issuer can change it. |
-| SetPrimaryTokenSymbol | [SetPrimaryTokenSymbolInput](#token.SetPrimaryTokenSymbolInput) | [Empty](#token.Empty) | Set the primary token of side chain. |
-| CrossChainTransfer | [CrossChainTransferInput](#token.CrossChainTransferInput) | [Empty](#token.Empty) | This interface is used for cross-chain transfer. |
-| CrossChainReceiveToken | [CrossChainReceiveTokenInput](#token.CrossChainReceiveTokenInput) | [Empty](#token.Empty) | This method is used to receive cross-chain transfers. |
-| CrossChainCreateToken | [CrossChainCreateTokenInput](#token.CrossChainCreateTokenInput) | [Empty](#token.Empty) | The side chain creates tokens. |
+| SetPrimaryTokenSymbol | [SetPrimaryTokenSymbolInput](#token.SetPrimaryTokenSymbolInput) | [Empty](#token.Empty) | Set the symbol of token issued for a side chain or a party. |
+| CrossChainTransfer | [CrossChainTransferInput](#token.CrossChainTransferInput) | [Empty](#token.Empty) | This interface is a cross-chain transfer transation. |
+| CrossChainReceiveToken | [CrossChainReceiveTokenInput](#token.CrossChainReceiveTokenInput) | [Empty](#token.Empty) | This method is used to receive cross-chain transfer transactions. |
+| CrossChainCreateToken | [CrossChainCreateTokenInput](#token.CrossChainCreateTokenInput) | [Empty](#token.Empty) | This method is to deal with the info of tokens created by other chains, which exist in transfer transactions. |
 | InitializeFromParentChain | [InitializeFromParentChainInput](#token.InitializeFromParentChainInput) | [Empty](#token.Empty) | When the side chain is started, the side chain is initialized with the parent chain information. |
 | ClaimTransactionFees | [TotalTransactionFeesMap](#token.TotalTransactionFeesMap) | [Empty](#token.Empty) | Handle the transaction fees charged by ChargeTransactionFees. |
-| ChargeTransactionFees | [ChargeTransactionFeesInput](#token.ChargeTransactionFeesInput) | [ChargeTransactionFeesOutput](#token.ChargeTransactionFeesOutput) | Used to collect transaction fees. |
-| CheckThreshold | [CheckThresholdInput](#token.CheckThresholdInput) | [Empty](#token.Empty) | Check the token threshold. |
-| InitialCoefficients | [Empty](#token.Empty) | [Empty](#token.Empty) | Initialize coefficients of every type of tokens supporting charging fee. |
-| DonateResourceToken | [TotalResourceTokensMaps](#token.TotalResourceTokensMaps) | [Empty](#token.Empty) | Processing resource token received. |
+| ChargeTransactionFees | [ChargeTransactionFeesInput](#token.ChargeTransactionFeesInput) | [ChargeTransactionFeesOutput](#token.ChargeTransactionFeesOutput) | This method is used to collect transaction fees. |
+| CheckThreshold | [CheckThresholdInput](#token.CheckThresholdInput) | [Empty](#token.Empty) | This method is to check whether the token fit the token threshold identified. |
+| InitialCoefficients | [Empty](#token.Empty) | [Empty](#token.Empty) | This method is to initialize coefficients of every type of tokens supporting charging fee. |
+| DonateResourceToken | [TotalResourceTokensMaps](#token.TotalResourceTokensMaps) | [Empty](#token.Empty) | This method is to process resource token received. |
 | ChargeResourceToken | [ChargeResourceTokenInput](#token.ChargeResourceTokenInput) | [Empty](#token.Empty) | A transaction resource fee is charged to implement the ACS8 standards. |
-| CheckResourceToken | [Empty](#token.Empty) | [Empty](#token.Empty) | Verify that the resource token are sufficient. |
-| SetSymbolsToPayTxSizeFee | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | [Empty](#token.Empty) | Set the list of tokens to pay transaction fees. |
-| UpdateCoefficientsForSender | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | Update the coefficient of the transaction fee calculation formula. |
-| UpdateCoefficientsForContract | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | Update the coefficient of the transaction fee calculation formula. |
-| InitializeAuthorizedController | [Empty](#token.Empty) | [Empty](#token.Empty) | This method is used to initialize the governance organization for some functions, including: the coefficient of the user transaction fee calculation formula, the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee. |
-| GetTokenInfo | [GetTokenInfoInput](#token.GetTokenInfoInput) | [TokenInfo](#token.TokenInfo) | Query token information. |
-| GetNativeTokenInfo | [Empty](#token.Empty) | [TokenInfo](#token.TokenInfo) | Query native token information. |
-| GetResourceTokenInfo | [Empty](#token.Empty) | [TokenInfoList](#token.TokenInfoList) | Query resource token information. |
-| GetBalance | [GetBalanceInput](#token.GetBalanceInput) | [GetBalanceOutput](#token.GetBalanceOutput) | Query the balance at the specified address. |
-| GetBalanceBatch | [GetBalanceBatchInput](#token.GetBalanceBatchInput) | [GetBalanceBatchOutput](#token.GetBalanceBatchOutput) | Batch query the balance at the specified address. |
-| GetAllowance | [GetAllowanceInput](#token.GetAllowanceInput) | [GetAllowanceOutput](#token.GetAllowanceOutput) | Query the account's allowance for other addresses |
+| CheckResourceToken | [Empty](#token.Empty) | [Empty](#token.Empty) | This method is to verify whether the resource token are sufficient. |
+| SetSymbolsToPayTxSizeFee | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | [Empty](#token.Empty) | This method is to set the list of tokens to pay transaction fees. |
+| UpdateCoefficientsForSender | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | This method is to update the coefficient of the transaction fee calculation formula. |
+| UpdateCoefficientsForContract | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | This method is to update the coefficient of the transaction fee calculation formula. |
+| InitializeAuthorizedController | [Empty](#token.Empty) | [Empty](#token.Empty) | This method is used to initialize the governance organization for some functions, including the coefficient of the user transaction fee calculation formula, the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee. |
+| GetTokenInfo | [GetTokenInfoInput](#token.GetTokenInfoInput) | [TokenInfo](#token.TokenInfo) | View method to query token information. |
+| GetNativeTokenInfo | [Empty](#token.Empty) | [TokenInfo](#token.TokenInfo) | View method to query native token information. |
+| GetResourceTokenInfo | [Empty](#token.Empty) | [TokenInfoList](#token.TokenInfoList) | View method to query resource token information. |
+| GetBalance | [GetBalanceInput](#token.GetBalanceInput) | [GetBalanceOutput](#token.GetBalanceOutput) | View method to query the balance at the specified address. |
+| GetBalanceBatch | [GetBalanceBatchInput](#token.GetBalanceBatchInput) | [GetBalanceBatchOutput](#token.GetBalanceBatchOutput) | View method to batch query the balance at the specified address. |
+| GetAllowance | [GetAllowanceInput](#token.GetAllowanceInput) | [GetAllowanceOutput](#token.GetAllowanceOutput) | View method to query the account's allowance for other addresses |
 | IsInWhiteList | [IsInWhiteListInput](#token.IsInWhiteListInput) | [BoolValue](#token.BoolValue) | Check whether the token is in the whitelist of an address, which can be called TransferFrom to transfer the token under the condition of not being credited. |
-| GetLockedAmount | [GetLockedAmountInput](#token.GetLockedAmountInput) | [GetLockedAmountOutput](#token.GetLockedAmountOutput) | Query the information for a lock. |
-| GetCrossChainTransferTokenContractAddress | [GetCrossChainTransferTokenContractAddressInput](#token.GetCrossChainTransferTokenContractAddressInput) | [Address](#token.Address) | Query the address of receiving token in cross-chain transfer. |
-| GetPrimaryTokenSymbol | [Empty](#token.Empty) | [StringValue](#token.StringValue) | Query the name of the primary Token. |
-| GetCalculateFeeCoefficientsForContract | [Int32Value](#token.Int32Value) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | Query the coefficient of the transaction fee calculation formula. |
-| GetCalculateFeeCoefficientsForSender | [Empty](#token.Empty) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | Query the coefficient of the transaction fee calculation formula. |
-| GetSymbolsToPayTxSizeFee | [Empty](#token.Empty) | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | Query tokens that can pay transaction fees. |
-| GetLatestTotalTransactionFeesMapHash | [Empty](#token.Empty) | [Hash](#token.Hash) | Query the hash of the last input of ClaimTransactionFees. |
-| GetLatestTotalResourceTokensMapsHash | [Empty](#token.Empty) | [Hash](#token.Hash) | Query the hash of the last input of DonateResourceToken. |
-| IsTokenAvailableForMethodFee | [StringValue](#token.StringValue) | [BoolValue](#token.BoolValue) |  |
+| GetLockedAmount | [GetLockedAmountInput](#token.GetLockedAmountInput) | [GetLockedAmountOutput](#token.GetLockedAmountOutput) | View method to query the information for a lock. |
+| GetCrossChainTransferTokenContractAddress | [GetCrossChainTransferTokenContractAddressInput](#token.GetCrossChainTransferTokenContractAddressInput) | [Address](#token.Address) | View method to query the address of receiving token in cross-chain transfer. |
+| GetPrimaryTokenSymbol | [Empty](#token.Empty) | [StringValue](#token.StringValue) | View method to query the name of the primary Token. |
+| GetCalculateFeeCoefficientsForContract | [Int32Value](#token.Int32Value) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | View method to query the coefficient of the transaction fee calculation formula. |
+| GetCalculateFeeCoefficientsForSender | [Empty](#token.Empty) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | View method to query the coefficient of the transaction fee calculation formula. |
+| GetSymbolsToPayTxSizeFee | [Empty](#token.Empty) | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | View method to query tokens that can pay transaction fees. |
+| GetLatestTotalTransactionFeesMapHash | [Empty](#token.Empty) | [Hash](#token.Hash) | View method to query the hash of the last input of ClaimTransactionFees. |
+| GetLatestTotalResourceTokensMapsHash | [Empty](#token.Empty) | [Hash](#token.Hash) | View method to query the hash of the last input of DonateResourceToken. |
+| IsTokenAvailableForMethodFee | [StringValue](#token.StringValue) | [BoolValue](#token.BoolValue) | This method is to judge wether the token is available for method fee. |
 | CrossChainTransferBatch | [CrossChainTransferBatchInput](#token.CrossChainTransferBatchInput) | [Empty](#token.Empty) | This interface is used for batch cross-chain transfer. |
 
  <!-- end services -->
@@ -1650,7 +1650,7 @@ piece_numbers, coefficients.
  <!-- end enums -->
 
 
-<a name="contract/token_contract.proto-extensions"></a>
+<a name="token_contract.proto-extensions"></a>
 
 * **File-level Extensions**
 | Extension | Type | Base | Number | Description |
