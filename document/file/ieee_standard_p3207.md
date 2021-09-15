@@ -5,10 +5,14 @@
 
 ## Overview
 ### Background
-The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.
+
+Digital economy has become the consensus of global development. As the core technological element of digital economy, blockchain has developed rapidly from POC verification to small-scale model exploration.
+The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.Many problems will ensue, such as isolation of technology platform, isolation of single application mode and disconnection of industrial ecology.On the basis of the key standardization objectives of blockchain technology, standards are summarized and best practices are summarized, and a systematic standard family is gradually established with standardized methods, and the rapid and benign development of the industry is guided.
 
 ### Scope
 * Define the data structure related to digital asset identification;
+* Define the data types related to digital asset identification;
+* Define the data elements related to digital asset identification;
 * Define data format specifications related to digital asset identification;
 * Propose asset management operation specifications related to digital asset identification.
 
@@ -21,6 +25,10 @@ The following referenced documents are indispensable for the application of this
 ## Definitions, abbreviations and acronyms
 ### Definitions
 
+For the purposes of this document, the following terms and definitions apply. The IEEE Standards Dictionary
+Online should be consulted for terms not defined in this clause.
+
+
 * **Blockchain**: Distributed ledger with confirmed blocks organized in an append-only,sequential chain using cryptographic links.
 
   NOTE-See[[B1]](#B1)
@@ -28,6 +36,16 @@ The following referenced documents are indispensable for the application of this
 * **Digital asset**: Asset that exist only in digital form or which is the digital representation of another asset.
 
   NOTE-See[[B1]](#B1)
+
+* **Data element**: A data unit described by a set of attributes, including definition, identification, representation
+  and permissible values.
+
+  NOTE-See[[B4]](#B4)
+
+* **Data type**: A format determined by meta-operation of data, and used to collect letters, figures and (or) symbols
+  to describe the value of a data element.
+
+  NOTE-See[[B5]](#B5)
 
 * **Token**: Digital asset that represents a collection of entitlements.
 
@@ -1686,6 +1704,9 @@ piece_numbers, coefficients.
 | <a name="string" /> string | A string must always contain UTF-8 encoded or 7-bit ASCII text. | string | String | str/unicode | string | string | string | String (UTF-8) |
 | <a name="bytes" /> bytes | May contain any arbitrary sequence of bytes. | string | ByteString | str | []byte | ByteString | string | String (ASCII-8BIT) |
 
+# Annex A
+
+(informative)
 
 ## Bibliography
 
@@ -1697,3 +1718,14 @@ understood or used to implement this standard. Reference to these resources is m
 <span id="B2">[B2] ERC-20 Token Standard.</span>
 
 <span id="B3">[B3] ERC-721 Token Standard.</span>
+
+<span id="B4">[B4] GB/T 19488.1-2004.</span>
+
+<span id="B5">[B5] GB/T 18391.1-2002.</span>
+
+
+# Annex B
+
+(informative)
+
+## Data item identifiers
