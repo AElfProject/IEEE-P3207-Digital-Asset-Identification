@@ -104,10 +104,6 @@ service TokenContract {
     // Only the original issuer can change it.
     rpc ChangeTokenIssuer (ChangeTokenIssuerInput) returns (Empty) {
     }
-
-    // Set the symbol of token issued for a side chain or a party.
-    rpc SetPrimaryTokenSymbol (SetPrimaryTokenSymbolInput) returns (Empty) {
-    }
     
     // This interface is a cross-chain transfer transation.
     rpc CrossChainTransfer (CrossChainTransferInput) returns (Empty) {
@@ -121,69 +117,13 @@ service TokenContract {
     // which exist in transfer transactions.
     rpc CrossChainCreateToken(CrossChainCreateTokenInput) returns (Empty) {        
     }
-    
-    // When the side chain is started, the side chain is initialized with the parent chain information.
-    rpc InitializeFromParentChain (InitializeFromParentChainInput) returns (Empty) {
-    }
 
-    // Handle the transaction fees charged by ChargeTransactionFees.
-    rpc ClaimTransactionFees (TotalTransactionFeesMap) returns (Empty) {
-    }
-    
-    // This method is used to collect transaction fees.
-    rpc ChargeTransactionFees (ChargeTransactionFeesInput) returns (ChargeTransactionFeesOutput) {
-    }
-
-    // This method is to check whether the token fit the token threshold identified.
-    rpc CheckThreshold (CheckThresholdInput) returns (Empty) {
-    }
-
-    // This method is to initialize coefficients of every type of tokens supporting charging fee.
-    rpc InitialCoefficients (Empty) returns (Empty){
-    }
-    
-    // This method is to process resource token received.
-    rpc DonateResourceToken (TotalResourceTokensMaps) returns (Empty) {
-    }
-    
-    // A transaction resource fee is charged to implement the ACS8 standards.
-    rpc ChargeResourceToken (ChargeResourceTokenInput) returns (Empty) {
-    }
-    
-    // This method is to verify whether the resource token are sufficient.
-    rpc CheckResourceToken (Empty) returns (Empty) {
-    }
-    
-    // This method is to set the list of tokens to pay transaction fees.
-    rpc SetSymbolsToPayTxSizeFee (SymbolListToPayTxSizeFee) returns (Empty){
-    }
-    
-    // This method is to update the coefficient of the transaction fee calculation formula.
-    rpc UpdateCoefficientsForSender (UpdateCoefficientsInput) returns (Empty) {
-    }
-    
-    // This method is to update the coefficient of the transaction fee calculation formula.
-    rpc UpdateCoefficientsForContract (UpdateCoefficientsInput) returns (Empty) {
-    }
-    
-    // This method is used to initialize the governance organization for some functions, 
-    // including the coefficient of the user transaction fee calculation formula, 
-    // the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee.
-    rpc InitializeAuthorizedController(Empty) returns (Empty){
+    // This interface is used for batch cross-chain transfer.
+    rpc CrossChainTransferBatch (CrossChainTransferBatchInput) returns (Empty) {
     }
 
     // View method to query token information.
     rpc GetTokenInfo (GetTokenInfoInput) returns (TokenInfo) {
-        option (is_view) = true;
-    }
-    
-    // View method to query native token information.
-    rpc GetNativeTokenInfo (Empty) returns (TokenInfo) {
-        option (is_view) = true;
-    }
-    
-    // View method to query resource token information.
-    rpc GetResourceTokenInfo (Empty) returns (TokenInfoList) {
         option (is_view) = true;
     }
     
@@ -202,12 +142,6 @@ service TokenContract {
         option (is_view) = true;
     }
     
-    // Check whether the token is in the whitelist of an address, 
-    // which can be called TransferFrom to transfer the token under the condition of not being credited.
-    rpc IsInWhiteList (IsInWhiteListInput) returns (BoolValue) {
-        option (is_view) = true;
-    }
-    
     // View method to query the information for a lock.
     rpc GetLockedAmount (GetLockedAmountInput) returns (GetLockedAmountOutput) {
         option (is_view) = true;
@@ -216,45 +150,6 @@ service TokenContract {
     // View method to query the address of receiving token in cross-chain transfer.
     rpc GetCrossChainTransferTokenContractAddress (GetCrossChainTransferTokenContractAddressInput) returns (Address) {
         option (is_view) = true;
-    }
-    
-    //  View method to query the name of the primary Token.
-    rpc GetPrimaryTokenSymbol (Empty) returns (StringValue) {
-        option (is_view) = true;
-    }
-    
-    //  View method to query the coefficient of the transaction fee calculation formula.
-    rpc GetCalculateFeeCoefficientsForContract (Int32Value) returns (CalculateFeeCoefficients) {
-        option (is_view) = true;
-    }
-
-    //  View method to query the coefficient of the transaction fee calculation formula.
-    rpc GetCalculateFeeCoefficientsForSender (Empty) returns (CalculateFeeCoefficients) {
-        option (is_view) = true;
-    }
-    
-    //  View method to query tokens that can pay transaction fees.
-    rpc GetSymbolsToPayTxSizeFee (Empty) returns (SymbolListToPayTxSizeFee){
-        option (is_view) = true;
-    }
-    
-    //  View method to query the hash of the last input of ClaimTransactionFees.
-    rpc GetLatestTotalTransactionFeesMapHash (Empty) returns (Hash){
-        option (is_view) = true;
-    }
-    
-    //  View method to query the hash of the last input of DonateResourceToken.
-    rpc GetLatestTotalResourceTokensMapsHash (Empty) returns (Hash){
-        option (is_view) = true;
-    }
-
-    //This method is to judge wether the token is available for method fee.
-    rpc IsTokenAvailableForMethodFee (StringValue) returns (BoolValue) {
-        option (is_view) = true;
-    }
-
-    // This interface is used for batch cross-chain transfer.
-    rpc CrossChainTransferBatch (CrossChainTransferBatchInput) returns (Empty) {
     }
 }
 
@@ -270,7 +165,9 @@ message TokenInfo {
     int64 supply = 3;
     // The total supply of the token.
     int64 total_supply = 4;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token,
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 5;
     // The address that created the token.
     Address issuer = 6;
@@ -280,8 +177,19 @@ message TokenInfo {
     int32 issue_chain_id = 8;
     // The amount of issued tokens.
     int64 issued = 9;
-    // The external information.
-    map<string, string> external_information = 10;
+    // Describes the asset to which this token represents.
+    string description=10;
+    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
+    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
+    string _image=11;
+    // Arbitrary properties. Values may be strings, numbers, object or arrays.
+    bytes properties=12;
+    // The external information aimed to different kinds of token.
+    // Doublie underlines indicates the reserved field, with which you can define them by yourself.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like car->porsche101.
+    map<string, string> external_information = 13;
 }
 
 // The function of creating a token.
@@ -294,26 +202,28 @@ message CreateInput {
     string token_name = 2;
     // The total supply of the token.
     int64 total_supply = 3;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 4;
     // The address that created the token.
     Address issuer = 5;
     // A flag indicating if this token is burnable.
     bool is_burnable = 6;
-    // A whitelist address list used to lock tokens.
-    repeated Address lock_white_list = 7;
+    // Describes the asset to which this token represents.
+    string description=7;
+    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
+    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
+    string _image=8;
     // The chain id of the token.
-    int32 issue_chain_id = 8;
-    // The external information.
-    map<string, string> external_information = 9;
-}
-
-// The function of setting the primary token of side chain.
-// Input parameters:
-// symbol.
-message SetPrimaryTokenSymbolInput {
-    // The symbol of the token.
-    string symbol = 1;
+    int32 issue_chain_id = 9;
+    // Arbitrary properties. Values may be strings, numbers, object or arrays.
+    bytes properties=10;
+    // The external information aimed to different kinds of token,
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like ELF->ERC-20protocal
+    map<string, string> external_information = 11;
 }
 
 // The function of issuing some amount of tokens to an address. 
@@ -436,36 +346,6 @@ message BurnInput {
     int64 amount = 2;
 }
 
-// The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-// Input parameters:
-// cost_dic, caller.
-message ChargeResourceTokenInput {
-    // Collection of charge resource token, Symbol->Amount.
-    map<string, int64> cost_dic = 1;
-    // The sender of the transaction.
-    Address caller = 2;
-}
-
-// The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-// Input parameters:
-// fees_map.
-message TransactionFeeBill {
-    // The transaction fee dictionary, Symbol->fee.
-    map<string, int64> fees_map = 1;
-}
-
-// The function of checking the token threshold.
-// Input parameters:
-// sender, symbol_to_threshold, is_check_allowance.
-message CheckThresholdInput {
-    // The sender of the transaction.
-    Address sender = 1;
-    // The threshold to set, Symbol->Threshold.
-    map<string, int64> symbol_to_threshold = 2;
-    // Whether to check the allowance.
-    bool is_check_allowance = 3;
-}
-
 // The function of querying token information.
 // Input parameters:
 // symbol.
@@ -575,71 +455,6 @@ message CrossChainReceiveTokenInput {
     MerklePath merkle_path = 4;
 }
 
-// The functio of checking whether the token is in the whitelist of an address, which can be called TransferFrom to transfer the token under the condition of not being credited.
-// Input parameters:
-// symbol, address.
-message IsInWhiteListInput {
-    // The symbol of token. 
-    string symbol = 1;
-    // The address to check.
-    Address address = 2;
-}
-
-// The function of transaction fee weight calculation.
-// Input parameters:
-// token_symbol, base_token_weight, added_token_weight.
-message SymbolToPayTxSizeFee{
-    // The symbol of token. 
-    string token_symbol = 1;
-    // The charge weight of primary token.
-    int32 base_token_weight = 2;
-    // The new added token charge weight. For example, the charge weight of primary Token is set to 1. 
-    // The newly added token charge weight is set to 10. If the transaction requires 1 unit of primary token, 
-    // the user can also pay for 10 newly added tokens.
-    int32 added_token_weight = 3;
-}
-
-// The function of transaction fee weight calculation(list).
-// Input parameters:
-// symbols_to_pay_tx_size_fee.
-message SymbolListToPayTxSizeFee{
-    // Transaction fee token information.
-    repeated SymbolToPayTxSizeFee symbols_to_pay_tx_size_fee = 1;
-}
-
-// The function of collecting transaction fees.
-// Input parameters:
-// method_name, contract_address, contract_address, symbols_to_pay_tx_size_fee.
-message ChargeTransactionFeesInput {
-    // The method name of transaction.
-    string method_name = 1;
-    // The contract address of transaction.
-    Address contract_address = 2;
-    // The amount of transaction size fee.
-    int64 transaction_size_fee = 3;
-    // Transaction fee token information.
-    repeated SymbolToPayTxSizeFee symbols_to_pay_tx_size_fee = 4;
-}
-
-// The output of collecting transaction fees.
-// Output parameters:
-// success, charging_information.
-message ChargeTransactionFeesOutput {
-    // Whether the charge was successful.
-    bool success = 1;
-    // The charging information.
-    string charging_information = 2;
-}
-
-// The event of token lift modified.
-// Input parameters:
-// symbol_list_to_pay_tx_size_fee.
-message ExtraTokenListModified {
-    option (is_event) = true;
-    // Transaction fee token information.
-    SymbolListToPayTxSizeFee symbol_list_to_pay_tx_size_fee = 1;
-}
-
 // The function of querying the information for a lock.
 // Input parameters:
 // address, symbol, lock_id. 
@@ -694,108 +509,6 @@ message CrossChainCreateTokenInput {
     bytes transaction_bytes = 3;
     // The merkle path created from the transaction that created the transaction.
     MerklePath merkle_path = 4;
-}
-
-// The function of initializing side chain with the parent chain's information, when the side chain is start.
-// Input parameters:
-// resource_amount, registered_other_token_contract_addresses, creator.
-message InitializeFromParentChainInput {
-    // The amount of resource.
-    map<string, int32> resource_amount = 1;
-    // The token contract addresses.
-    map<int32, Address> registered_other_token_contract_addresses = 2;
-    // The creator the side chain.
-    Address creator = 3;
-}
-
-// The function of updating the coefficient of the transaction fee calculation formula.
-// Input parameters:
-// piece_numbers, coefficients.
-message UpdateCoefficientsInput {
-    // The specify pieces gonna update.
-    repeated int32 piece_numbers = 1;
-    // Coefficients of one single type.
-    CalculateFeeCoefficients coefficients = 2;
-}
-
-enum FeeTypeEnum {
-    READ = 0;
-    STORAGE = 1;
-    WRITE = 2;
-    TRAFFIC = 3;
-    TX = 4;
-}
-
-// The function of Calculating piece fees.
-// Output parameters:
-// value.
-message CalculateFeePieceCoefficients {
-    // Coefficients of one single piece.
-    // The first char is its type: liner / power.
-    // The second char is its piece upper bound.
-    repeated int32 value = 1;
-}
-
-// The function of Calculating fees.
-// Output parameters:
-// fee_token_type, piece_coefficients_list.
-message CalculateFeeCoefficients {
-    // The resource fee type, like READ, WRITE, etc.
-    int32 fee_token_type = 1;
-    // Coefficients of one single piece.
-    repeated CalculateFeePieceCoefficients piece_coefficients_list = 2;
-}
-
-// The function of Calculating all fees.
-// Output parameters:
-// value.
-message AllCalculateFeeCoefficients {
-    // The coefficients of fee Calculation.
-    repeated CalculateFeeCoefficients value = 1;
-}
-
-// The functioon of handling the transaction fees charged by ChargeTransactionFees.
-// Output parameters:
-// value, block_hash, block_height.
-message TotalTransactionFeesMap
-{
-    // Token dictionary that charge transaction fee, Symbol->Amount.
-    map<string, int64> value = 1;
-    // The hash of the block processing the transaction.
-    Hash block_hash = 2;
-    // The height of the block processing the transaction.
-    int64 block_height = 3;
-}
-
-// The function of processing resource token received.
-// Output parameters:
-// value, block_hash, block_hash.
-message TotalResourceTokensMaps {
-    // Resource tokens to charge.
-    repeated ContractTotalResourceTokens value = 1;
-    // The hash of the block processing the transaction.
-    Hash block_hash = 2;
-    // The height of the block processing the transaction.
-    int64 block_height = 3;
-}
-
-// The function of resource tokens to charge.
-// Input parameters:
-// contract_address, tokens_map.
-message ContractTotalResourceTokens {
-    // The contract address.
-    Address contract_address = 1;
-    // Resource tokens to charge.
-    TotalResourceTokensMap tokens_map = 2;
-}
-
-// The function of processing resource token received.
-// Output parameters:
-// value.
-message TotalResourceTokensMap
-{
-    // Resource token dictionary, Symbol->Amount.
-    map<string, int64> value = 1;
 }
 
 // The function of changing the issuer of the specified token.
@@ -870,46 +583,6 @@ message Burned
     int64 amount = 3;
 }
 
-// The event of setting primary token.
-// Input parameters:
-// token_symbol.
-message ChainPrimaryTokenSymbolSet {
-    option (is_event) = true;
-    // The symbol of token. 
-    string token_symbol = 1;
-}
-
-// The event of updating calculate fee algorithm.
-// Input parameters:
-// all_type_fee_coefficients.
-message CalculateFeeAlgorithmUpdated {
-    option (is_event) = true;
-    // All calculate fee coefficients after modification.
-    AllCalculateFeeCoefficients all_type_fee_coefficients = 1;
-}
-
-// The event of charging rental fee.
-// Input parameters:
-// symbol, amount.
-message RentalCharged {
-    option (is_event) = true;
-    // The symbol of rental fee charged.
-    string symbol = 1;
-    // The amount of rental fee charged.
-    int64 amount = 2;
-}
-
-// The event of charging rental fee(which is insufficient).
-// Input parameters:
-// symbol, amount.
-message RentalAccountBalanceInsufficient {
-    option (is_event) = true;
-    // The symbol of insufficient rental account balance.
-    string symbol = 1;
-    // The balance of the account.
-    int64 amount = 2;
-}
-
 // The event of creating token.
 // Input parameters:
 // symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id, external information..
@@ -921,7 +594,9 @@ message TokenCreated {
     string token_name = 2;
     // The total supply of the token.
     int64 total_supply = 3;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 4;
     // The address that created the token.
     Address issuer = 5;
@@ -929,7 +604,10 @@ message TokenCreated {
     bool is_burnable = 6;
     // The chain id of the token.
     int32 issue_chain_id = 7;
-    // The external information.
+    // The external information aimed to different token,
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like Fungible_Token->ERC-20protocal
     map<string, string> external_information = 8;
 }
 
