@@ -5,10 +5,13 @@
 
 ## Overview
 ### Background
-The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.
+Digital economy has become the consensus of global development. As the core technological element of digital economy, blockchain has developed rapidly from POC verification to small-scale model exploration.
+The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.Many problems will ensue, such as isolation of technology platform, isolation of single application mode and disconnection of industrial ecology.On the basis of the key standardization objectives of blockchain technology, standards are summarized and best practices are summarized, and a systematic standard family is gradually established with standardized methods, and the rapid and benign development of the industry is guided.
 
 ### Scope
 * Define the data structure related to digital asset identification;
+* Define the data types related to digital asset identification;
+* Define the data fields related to digital asset identification;
 * Define data format specifications related to digital asset identification;
 * Propose asset management operation specifications related to digital asset identification.
 
@@ -21,6 +24,10 @@ The following referenced documents are indispensable for the application of this
 ## Definitions, abbreviations and acronyms
 ### Definitions
 
+For the purposes of this document, the following terms and definitions apply. The IEEE Standards Dictionary
+Online should be consulted for terms not defined in this clause.
+
+
 * **Blockchain**: Distributed ledger with confirmed blocks organized in an append-only,sequential chain using cryptographic links.
 
   NOTE-See[[B1]](#B1)
@@ -28,6 +35,15 @@ The following referenced documents are indispensable for the application of this
 * **Digital asset**: Asset that exist only in digital form or which is the digital representation of another asset.
 
   NOTE-See[[B1]](#B1)
+
+* **Data fields**: A data unit described by a set of attributes, including definition, identification, representation and permissible values.
+
+  NOTE-See[[B4]](#B4)
+
+* **Data type**: A format determined by meta-operation of data, and used to collect letters, figures and (or) symbols
+  to describe the value of a data element.
+
+  NOTE-See[[B5]](#B5)
 
 * **Token**: Digital asset that represents a collection of entitlements.
 
@@ -270,27 +286,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
-| description | [string](#string) |  | Describes the asset to which this token represents. |
-| _image | [string](#string) |  | A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. |
-| issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| properties | [bytes](#bytes) |  | Arbitrary properties. Values may be strings, numbers, object or arrays. |
-| external_information | [CreateInput.ExternalInformationEntry](#token.CreateInput.ExternalInformationEntry) | repeated | The external information aimed to different kinds of token, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like ELF->ERC-20protocal |
-
-
-
-
-
-
-<a name="token.CreateInput.ExternalInformationEntry"></a>
-
-* **CreateInput.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -823,23 +819,7 @@ symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id,
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| external_information | [TokenCreated.ExternalInformationEntry](#token.TokenCreated.ExternalInformationEntry) | repeated | The external information aimed to different token, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like Fungible_Token->ERC-20protocal |
-
-
-
-
-
-
-<a name="token.TokenCreated.ExternalInformationEntry"></a>
-
-* **TokenCreated.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -865,26 +845,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
 | issued | [int64](#int64) |  | The amount of issued tokens. |
-| description | [string](#string) |  | Describes the asset to which this token represents. |
-| _image | [string](#string) |  | A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. |
-| properties | [bytes](#bytes) |  | Arbitrary properties. Values may be strings, numbers, object or arrays. |
-| external_information | [TokenInfo.ExternalInformationEntry](#token.TokenInfo.ExternalInformationEntry) | repeated | The external information aimed to different kinds of token. Doublie underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
-
-
-
-
-
-
-<a name="token.TokenInfo.ExternalInformationEntry"></a>
-
-* **TokenInfo.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -1087,10 +1048,61 @@ unlock_address, lock_id, symbol, amount, memo.
 
 
 
+
+<a name="token.external_information"></a>
+
+* **external_information**
+the extra information of token,
+Including some standard definition information, which begins with a double underscore,
+and some custom information.
+Output parameters:
+_description,_image,properties
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| __description | [string](#string) |  | Describes the asset to which this token represents. |
+| __image | [string](#string) |  | A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. |
+| properties | [string](#string) | repeated | Arbitrary set of attributes. |
+| user_define | [external_information.UserDefineEntry](#token.external_information.UserDefineEntry) | repeated | Aimed at Non-Fungible Token, which has its own identification. showing like car->porsche101. |
+
+
+
+
+
+
+<a name="token.external_information.UserDefineEntry"></a>
+
+* **external_information.UserDefineEntry**
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
  <!-- end messages -->
 
 ### Others
  <!-- end enums -->
+
+
+<a name="IEEE_Standard/proto/token_contract.proto-extensions"></a>
+
+* **File-level Extensions**
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| is_indexed | bool | .google.protobuf.FieldOptions | 502001 |  |
+| identity | string | .google.protobuf.FileOptions | 500001 |  |
+| is_event | bool | .google.protobuf.MessageOptions | 50100 |  |
+| is_view | bool | .google.protobuf.MethodOptions | 506001 |  |
+| base | string | .google.protobuf.ServiceOptions | 505001 |  |
+| csharp_state | string | .google.protobuf.ServiceOptions | 505030 |  |
 
  <!-- end HasExtensions -->
 
@@ -1127,3 +1139,8 @@ understood or used to implement this standard. Reference to these resources is m
 <span id="B2">[B2] ERC-20 Token Standard.</span>
 
 <span id="B3">[B3] ERC-721 Token Standard.</span>
+
+<span id="B4">[B4] GB/T 19488.1-2004.</span>
+
+<span id="B5">[B5] GB/T 18391.1-2002.</span>
+

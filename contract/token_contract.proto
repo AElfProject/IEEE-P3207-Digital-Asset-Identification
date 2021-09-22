@@ -177,19 +177,30 @@ message TokenInfo {
     int32 issue_chain_id = 8;
     // The amount of issued tokens.
     int64 issued = 9;
-    // Describes the asset to which this token represents.
-    string description=10;
-    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
-    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
-    string _image=11;
-    // Arbitrary properties. Values may be strings, numbers, object or arrays.
-    bytes properties=12;
     // The external information aimed to different kinds of token.
-    // Doublie underlines indicates the reserved field, with which you can define them by yourself.
+    // Double underlines indicates the reserved field, with which you can define them by yourself.
     // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
     // Showing like car->porsche101.
-    map<string, string> external_information = 13;
+    external_information exter_info = 10;
+}
+
+// the extra information of token,
+// Including some standard definition information, which begins with a double underscore,
+// and some custom information.
+// Output parameters:
+// _description,_image,properties
+message external_information{
+    // Describes the asset to which this token represents.
+    string __description=1;
+    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
+    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
+    string __image=2;
+    // Arbitrary set of attributes.
+    repeated string properties=3;
+    // Aimed at Non-Fungible Token, which has its own identification.
+    // showing like car->porsche101.
+    map<string,string> user_define=4;
 }
 
 // The function of creating a token.
@@ -210,20 +221,12 @@ message CreateInput {
     Address issuer = 5;
     // A flag indicating if this token is burnable.
     bool is_burnable = 6;
-    // Describes the asset to which this token represents.
-    string description=7;
-    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
-    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
-    string _image=8;
-    // The chain id of the token.
-    int32 issue_chain_id = 9;
-    // Arbitrary properties. Values may be strings, numbers, object or arrays.
-    bytes properties=10;
-    // The external information aimed to different kinds of token,
-    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal,
+    // The external information aimed to different kinds of token.
+    // Double underlines indicates the reserved field, with which you can define them by yourself.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
-    // Showing like ELF->ERC-20protocal
-    map<string, string> external_information = 11;
+    // Showing like car->porsche101.
+    external_information exter_info= 7;
 }
 
 // The function of issuing some amount of tokens to an address. 
@@ -604,11 +607,12 @@ message TokenCreated {
     bool is_burnable = 6;
     // The chain id of the token.
     int32 issue_chain_id = 7;
-    // The external information aimed to different token,
-    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal,
+    // The external information aimed to different kinds of token.
+    // Double underlines indicates the reserved field, with which you can define them by yourself.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
-    // Showing like Fungible_Token->ERC-20protocal
-    map<string, string> external_information = 8;
+    // Showing like car->porsche101.
+    external_information exter_info = 10;
 }
 
 // The event of issuing token.
