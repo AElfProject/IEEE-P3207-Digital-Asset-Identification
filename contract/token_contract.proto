@@ -197,7 +197,7 @@ message external_information{
     // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
     string __image=2;
     // Arbitrary set of attributes.
-    repeated string properties=3;
+    repeated string __properties=3;
     // Aimed at Non-Fungible Token, which has its own identification.
     // showing like car->porsche101.
     map<string,string> user_define=4;

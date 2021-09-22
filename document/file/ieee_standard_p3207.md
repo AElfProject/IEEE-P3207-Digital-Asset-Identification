@@ -197,7 +197,6 @@ from, to, symbol, amount, memo.
 
 
 
-
 <a name="token.BoolValue"></a>
 
 * **BoolValue**
@@ -1063,7 +1062,7 @@ _description,_image,properties
 | ----- | ---- | ----- | ----------- |
 | __description | [string](#string) |  | Describes the asset to which this token represents. |
 | __image | [string](#string) |  | A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. |
-| properties | [string](#string) | repeated | Arbitrary set of attributes. |
+| __properties | [string](#string) | repeated | Arbitrary set of attributes. |
 | user_define | [external_information.UserDefineEntry](#token.external_information.UserDefineEntry) | repeated | Aimed at Non-Fungible Token, which has its own identification. showing like car->porsche101. |
 
 
@@ -1091,18 +1090,7 @@ _description,_image,properties
 ### Others
  <!-- end enums -->
 
-
 <a name="IEEE_Standard/proto/token_contract.proto-extensions"></a>
-
-* **File-level Extensions**
-| Extension | Type | Base | Number | Description |
-| --------- | ---- | ---- | ------ | ----------- |
-| is_indexed | bool | .google.protobuf.FieldOptions | 502001 |  |
-| identity | string | .google.protobuf.FileOptions | 500001 |  |
-| is_event | bool | .google.protobuf.MessageOptions | 50100 |  |
-| is_view | bool | .google.protobuf.MethodOptions | 506001 |  |
-| base | string | .google.protobuf.ServiceOptions | 505001 |  |
-| csharp_state | string | .google.protobuf.ServiceOptions | 505030 |  |
 
  <!-- end HasExtensions -->
 
