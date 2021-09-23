@@ -1,4 +1,4 @@
-# IEEE Standard for Blockchainbased Digital Asset Identification
+# IEEE Standard for Blockchain based Digital Asset Identification
 <a name="top"></a>
 
 [TOC]
@@ -63,7 +63,7 @@ Online should be consulted for terms not defined in this clause.
 
 
 
-<a name="IEEE_Standard/proto/token_contract.proto"></a>
+<a name="IEEE-P3207-Digital-Asset-Identification/contract/token_contract.proto"></a>
 
 ## Specfication
 
@@ -197,6 +197,7 @@ from, to, symbol, amount, memo.
 
 
 
+
 <a name="token.BoolValue"></a>
 
 * **BoolValue**
@@ -285,7 +286,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -818,7 +819,7 @@ symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id,
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -844,7 +845,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
 | issued | [int64](#int64) |  | The amount of issued tokens. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -1052,10 +1053,9 @@ unlock_address, lock_id, symbol, amount, memo.
 
 * **external_information**
 the extra information of token,
-Including some standard definition information, which begins with a double underscore,
-and some custom information.
+Including standard preset fields and other fields that can be customized by the developers.
 Output parameters:
-_description,_image,properties
+description, image, properties, and other fields.
 
 
 | Field | Type | Label | Description |
@@ -1090,7 +1090,18 @@ _description,_image,properties
 ### Others
  <!-- end enums -->
 
-<a name="IEEE_Standard/proto/token_contract.proto-extensions"></a>
+
+<a name="IEEE-P3207-Digital-Asset-Identification/contract/token_contract.proto-extensions"></a>
+
+* **File-level Extensions**
+| Extension | Type | Base | Number | Description |
+| --------- | ---- | ---- | ------ | ----------- |
+| is_indexed | bool | .google.protobuf.FieldOptions | 502001 |  |
+| identity | string | .google.protobuf.FileOptions | 500001 |  |
+| is_event | bool | .google.protobuf.MessageOptions | 50100 |  |
+| is_view | bool | .google.protobuf.MethodOptions | 506001 |  |
+| base | string | .google.protobuf.ServiceOptions | 505001 |  |
+| csharp_state | string | .google.protobuf.ServiceOptions | 505030 |  |
 
  <!-- end HasExtensions -->
 
@@ -1122,7 +1133,7 @@ _description,_image,properties
 Bibliographical references are resources that provide additional or helpful material but do not need to be
 understood or used to implement this standard. Reference to these resources is made for informational use only.
 
-<span id="B1">[B1] ISO 22739:2020(en), Blockchain and distributed ledger technologies—Vocabulary.</span>
+<span id="B1">[B1] ISO 22739:2020(en), Blockchain and distributed ledger technologies - Vocabulary.</span>
 
 <span id="B2">[B2] ERC-20 Token Standard.</span>
 

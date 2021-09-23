@@ -186,10 +186,9 @@ message TokenInfo {
 }
 
 // the extra information of token,
-// Including some standard definition information, which begins with a double underscore,
-// and some custom information.
+// Including standard preset fields and other fields that can be customized by the developers.
 // Output parameters:
-// _description,_image,properties
+// description, image, properties, and other fields.
 message external_information{
     // Describes the asset to which this token represents.
     string __description=1;
