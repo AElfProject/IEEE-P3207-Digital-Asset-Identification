@@ -1,14 +1,17 @@
-# IEEE Standard for Blockchainbased Digital Asset Identification
+# IEEE Standard for Blockchain based Digital Asset Identification
 <a name="top"></a>
 
 [TOC]
 
 ## Overview
 ### Background
-The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.
+Digital economy has become the consensus of global development. As the core technological element of digital economy, blockchain has developed rapidly from POC verification to small-scale model exploration.
+The asset identification specification is the key to establishing a digital asset management system, especially when it comes to multi-asset management and cross-chain asset operations. Without a universal digital asset identification specification, asset management based on different protocols will become more and more complicated.Many problems will ensue, such as isolation of technology platform, isolation of single application mode and disconnection of industrial ecology.On the basis of the key standardization objectives of blockchain technology, standards are summarized and best practices are summarized, and a systematic standard family is gradually established with standardized methods, and the rapid and benign development of the industry is guided.
 
 ### Scope
 * Define the data structure related to digital asset identification;
+* Define the data types related to digital asset identification;
+* Define the data fields related to digital asset identification;
 * Define data format specifications related to digital asset identification;
 * Propose asset management operation specifications related to digital asset identification.
 
@@ -21,6 +24,10 @@ The following referenced documents are indispensable for the application of this
 ## Definitions, abbreviations and acronyms
 ### Definitions
 
+For the purposes of this document, the following terms and definitions apply. The IEEE Standards Dictionary
+Online should be consulted for terms not defined in this clause.
+
+
 * **Blockchain**: Distributed ledger with confirmed blocks organized in an append-only,sequential chain using cryptographic links.
 
   NOTE-See[[B1]](#B1)
@@ -28,6 +35,15 @@ The following referenced documents are indispensable for the application of this
 * **Digital asset**: Asset that exist only in digital form or which is the digital representation of another asset.
 
   NOTE-See[[B1]](#B1)
+
+* **Data fields**: A data unit described by a set of attributes, including definition, identification, representation and permissible values.
+
+  NOTE-See[[B4]](#B4)
+
+* **Data type**: A format determined by meta-operation of data, and used to collect letters, figures and (or) symbols
+  to describe the value of a data element.
+
+  NOTE-See[[B5]](#B5)
 
 * **Token**: Digital asset that represents a collection of entitlements.
 
@@ -47,7 +63,7 @@ The following referenced documents are indispensable for the application of this
 
 
 
-<a name="contract/token_contract.proto"></a>
+<a name="IEEE-P3207-Digital-Asset-Identification/contract/token_contract.proto"></a>
 
 ## Specfication
 
@@ -61,50 +77,27 @@ The following referenced documents are indispensable for the application of this
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Create | [CreateInput](#token.CreateInput) | [Empty](#token.Empty) | Create a new token. |
-| Issue | [IssueInput](#token.IssueInput) | [Empty](#token.Empty) | Issuing some amount of tokens to an address is the action of increasing that addresses balance for the given token. The total amount of issued tokens must not exceed the total supply of the token and only the issuer (creator) of the token can issue tokens. Issuing tokens effectively increases the circulating supply. |
+| Create | [CreateInput](#token.CreateInput) | [Empty](#token.Empty) | Creating a new token serves as a user's proof of interest. The token can be circulated in the blockchain system with their unique characteristics, such as, Encryption, immutable, uniqueness. And token has certain economic value. |
+| Issue | [IssueInput](#token.IssueInput) | [Empty](#token.Empty) | Issuing some amount of tokens to an address is the action of increasing that address' balance for the given token. The total amount of issued tokens must not exceed the total supply of the token and only the issuer (creator) of the token can issue tokens. Issuing tokens effectively increases the circulating supply. |
 | Transfer | [TransferInput](#token.TransferInput) | [Empty](#token.Empty) | Transferring tokens simply is the action of transferring a given amount of tokens from one address to another. The origin or source address is the signer of the transaction. The balance of the sender must be higher than the amount that is transferred. |
 | TransferFrom | [TransferFromInput](#token.TransferFromInput) | [Empty](#token.Empty) | The TransferFrom action will transfer a specified amount of tokens from one address to another. For this operation to succeed the from address needs to have approved (see allowances) enough tokens to Sender of this transaction. If successful the amount will be removed from the allowance. |
 | BatchTransferFrom | [BatchTransferFromInput](#token.BatchTransferFromInput) | [Empty](#token.Empty) | The BatchTransferFrom action will transfer a batch of specified amount of tokens from one address to another. For this operation to succeed the from address needs to have approved (see allowances) enough tokens to Sender of this transaction. If successful the amount will be removed from the allowance. |
-| Approve | [ApproveInput](#token.ApproveInput) | [Empty](#token.Empty) | The approve action increases the allowance from the Sender to the Spender address, enabling the Spender to call TransferFrom. |
-| UnApprove | [UnApproveInput](#token.UnApproveInput) | [Empty](#token.Empty) | This is the reverse operation for Approve, it will decrease the allowance. |
-| Lock | [LockInput](#token.LockInput) | [Empty](#token.Empty) | This method can be used to lock tokens. |
-| Unlock | [UnlockInput](#token.UnlockInput) | [Empty](#token.Empty) | This is the reverse operation of locking, it un-locks some previously locked tokens. |
-| Burn | [BurnInput](#token.BurnInput) | [Empty](#token.Empty) | This action will burn the specified amount of tokens, removing them from the token’s Supply. |
+| Approve | [ApproveInput](#token.ApproveInput) | [Empty](#token.Empty) | The approve action increases the allowance from the Sender to the Spender address, enabling the Spender to call TransferFrom and approve a certain amount of transactions and to extract a certain amount of money. |
+| UnApprove | [UnApproveInput](#token.UnApproveInput) | [Empty](#token.Empty) | This is the reverse operation for Approve, it will decrease the allowance and revoke permission from operation of Approve. |
+| Lock | [LockInput](#token.LockInput) | [Empty](#token.Empty) | This method is used to lock tokens with specific symbol. |
+| Unlock | [UnlockInput](#token.UnlockInput) | [Empty](#token.Empty) | This is the reverse operation of Lock, which un-locks some previously locked tokens. |
+| Burn | [BurnInput](#token.BurnInput) | [Empty](#token.Empty) | This action will burn the specified amount of tokens which are burnable, and remove them from the token’s Supply. |
 | ChangeTokenIssuer | [ChangeTokenIssuerInput](#token.ChangeTokenIssuerInput) | [Empty](#token.Empty) | Change the issuer of the specified token. Only the original issuer can change it. |
-| SetPrimaryTokenSymbol | [SetPrimaryTokenSymbolInput](#token.SetPrimaryTokenSymbolInput) | [Empty](#token.Empty) | Set the primary token of side chain. |
-| CrossChainTransfer | [CrossChainTransferInput](#token.CrossChainTransferInput) | [Empty](#token.Empty) | This interface is used for cross-chain transfer. |
-| CrossChainReceiveToken | [CrossChainReceiveTokenInput](#token.CrossChainReceiveTokenInput) | [Empty](#token.Empty) | This method is used to receive cross-chain transfers. |
-| CrossChainCreateToken | [CrossChainCreateTokenInput](#token.CrossChainCreateTokenInput) | [Empty](#token.Empty) | The side chain creates tokens. |
-| InitializeFromParentChain | [InitializeFromParentChainInput](#token.InitializeFromParentChainInput) | [Empty](#token.Empty) | When the side chain is started, the side chain is initialized with the parent chain information. |
-| ClaimTransactionFees | [TotalTransactionFeesMap](#token.TotalTransactionFeesMap) | [Empty](#token.Empty) | Handle the transaction fees charged by ChargeTransactionFees. |
-| ChargeTransactionFees | [ChargeTransactionFeesInput](#token.ChargeTransactionFeesInput) | [ChargeTransactionFeesOutput](#token.ChargeTransactionFeesOutput) | Used to collect transaction fees. |
-| CheckThreshold | [CheckThresholdInput](#token.CheckThresholdInput) | [Empty](#token.Empty) | Check the token threshold. |
-| InitialCoefficients | [Empty](#token.Empty) | [Empty](#token.Empty) | Initialize coefficients of every type of tokens supporting charging fee. |
-| DonateResourceToken | [TotalResourceTokensMaps](#token.TotalResourceTokensMaps) | [Empty](#token.Empty) | Processing resource token received. |
-| ChargeResourceToken | [ChargeResourceTokenInput](#token.ChargeResourceTokenInput) | [Empty](#token.Empty) | A transaction resource fee is charged to implement the ACS8 standards. |
-| CheckResourceToken | [Empty](#token.Empty) | [Empty](#token.Empty) | Verify that the resource token are sufficient. |
-| SetSymbolsToPayTxSizeFee | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | [Empty](#token.Empty) | Set the list of tokens to pay transaction fees. |
-| UpdateCoefficientsForSender | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | Update the coefficient of the transaction fee calculation formula. |
-| UpdateCoefficientsForContract | [UpdateCoefficientsInput](#token.UpdateCoefficientsInput) | [Empty](#token.Empty) | Update the coefficient of the transaction fee calculation formula. |
-| InitializeAuthorizedController | [Empty](#token.Empty) | [Empty](#token.Empty) | This method is used to initialize the governance organization for some functions, including: the coefficient of the user transaction fee calculation formula, the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee. |
-| GetTokenInfo | [GetTokenInfoInput](#token.GetTokenInfoInput) | [TokenInfo](#token.TokenInfo) | Query token information. |
-| GetNativeTokenInfo | [Empty](#token.Empty) | [TokenInfo](#token.TokenInfo) | Query native token information. |
-| GetResourceTokenInfo | [Empty](#token.Empty) | [TokenInfoList](#token.TokenInfoList) | Query resource token information. |
-| GetBalance | [GetBalanceInput](#token.GetBalanceInput) | [GetBalanceOutput](#token.GetBalanceOutput) | Query the balance at the specified address. |
-| GetBalanceBatch | [GetBalanceBatchInput](#token.GetBalanceBatchInput) | [GetBalanceBatchOutput](#token.GetBalanceBatchOutput) | Batch query the balance at the specified address. |
-| GetAllowance | [GetAllowanceInput](#token.GetAllowanceInput) | [GetAllowanceOutput](#token.GetAllowanceOutput) | Query the account's allowance for other addresses |
-| IsInWhiteList | [IsInWhiteListInput](#token.IsInWhiteListInput) | [BoolValue](#token.BoolValue) | Check whether the token is in the whitelist of an address, which can be called TransferFrom to transfer the token under the condition of not being credited. |
-| GetLockedAmount | [GetLockedAmountInput](#token.GetLockedAmountInput) | [GetLockedAmountOutput](#token.GetLockedAmountOutput) | Query the information for a lock. |
-| GetCrossChainTransferTokenContractAddress | [GetCrossChainTransferTokenContractAddressInput](#token.GetCrossChainTransferTokenContractAddressInput) | [Address](#token.Address) | Query the address of receiving token in cross-chain transfer. |
-| GetPrimaryTokenSymbol | [Empty](#token.Empty) | [StringValue](#token.StringValue) | Query the name of the primary Token. |
-| GetCalculateFeeCoefficientsForContract | [Int32Value](#token.Int32Value) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | Query the coefficient of the transaction fee calculation formula. |
-| GetCalculateFeeCoefficientsForSender | [Empty](#token.Empty) | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | Query the coefficient of the transaction fee calculation formula. |
-| GetSymbolsToPayTxSizeFee | [Empty](#token.Empty) | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) | Query tokens that can pay transaction fees. |
-| GetLatestTotalTransactionFeesMapHash | [Empty](#token.Empty) | [Hash](#token.Hash) | Query the hash of the last input of ClaimTransactionFees. |
-| GetLatestTotalResourceTokensMapsHash | [Empty](#token.Empty) | [Hash](#token.Hash) | Query the hash of the last input of DonateResourceToken. |
-| IsTokenAvailableForMethodFee | [StringValue](#token.StringValue) | [BoolValue](#token.BoolValue) |  |
+| CrossChainTransfer | [CrossChainTransferInput](#token.CrossChainTransferInput) | [Empty](#token.Empty) | This interface is a cross-chain transfer transation. |
+| CrossChainReceiveToken | [CrossChainReceiveTokenInput](#token.CrossChainReceiveTokenInput) | [Empty](#token.Empty) | This method is used to receive cross-chain transfer transactions. |
+| CrossChainCreateToken | [CrossChainCreateTokenInput](#token.CrossChainCreateTokenInput) | [Empty](#token.Empty) | This method is to deal with the info of tokens created by other chains, which exist in transfer transactions. |
 | CrossChainTransferBatch | [CrossChainTransferBatchInput](#token.CrossChainTransferBatchInput) | [Empty](#token.Empty) | This interface is used for batch cross-chain transfer. |
+| GetTokenInfo | [GetTokenInfoInput](#token.GetTokenInfoInput) | [TokenInfo](#token.TokenInfo) | View method to query token information. |
+| GetBalance | [GetBalanceInput](#token.GetBalanceInput) | [GetBalanceOutput](#token.GetBalanceOutput) | View method to query the balance at the specified address. |
+| GetBalanceBatch | [GetBalanceBatchInput](#token.GetBalanceBatchInput) | [GetBalanceBatchOutput](#token.GetBalanceBatchOutput) | View method to batch query the balance at the specified address. |
+| GetAllowance | [GetAllowanceInput](#token.GetAllowanceInput) | [GetAllowanceOutput](#token.GetAllowanceOutput) | View method to query the account's allowance for other addresses |
+| GetLockedAmount | [GetLockedAmountInput](#token.GetLockedAmountInput) | [GetLockedAmountOutput](#token.GetLockedAmountOutput) | View method to query the information for a lock. |
+| GetCrossChainTransferTokenContractAddress | [GetCrossChainTransferTokenContractAddressInput](#token.GetCrossChainTransferTokenContractAddressInput) | [Address](#token.Address) | View method to query the address of receiving token in cross-chain transfer. |
 
  <!-- end services -->
 
@@ -121,23 +114,6 @@ address.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | address | [string](#string) |  | Address. |
-
-
-
-
-
-
-<a name="token.AllCalculateFeeCoefficients"></a>
-
-* **AllCalculateFeeCoefficients**
-The function of Calculating all fees.
-Output parameters:
-value.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) | repeated | The coefficients of fee Calculation. |
 
 
 
@@ -276,75 +252,6 @@ burner, symbol, amount.
 
 
 
-<a name="token.CalculateFeeAlgorithmUpdated"></a>
-
-* **CalculateFeeAlgorithmUpdated**
-The event of updating calculate fee algorithm.
-Input parameters:
-all_type_fee_coefficients.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| all_type_fee_coefficients | [AllCalculateFeeCoefficients](#token.AllCalculateFeeCoefficients) |  | All calculate fee coefficients after modification. |
-
-
-
-
-
-
-<a name="token.CalculateFeeCoefficients"></a>
-
-* **CalculateFeeCoefficients**
-The function of Calculating fees.
-Output parameters:
-fee_token_type, piece_coefficients_list.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fee_token_type | [int32](#int32) |  | The resource fee type, like READ, WRITE, etc. |
-| piece_coefficients_list | [CalculateFeePieceCoefficients](#token.CalculateFeePieceCoefficients) | repeated | Coefficients of one single piece. |
-
-
-
-
-
-
-<a name="token.CalculateFeePieceCoefficients"></a>
-
-* **CalculateFeePieceCoefficients**
-The function of Calculating piece fees.
-Output parameters:
-value.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [int32](#int32) | repeated | Coefficients of one single piece. The first char is its type: liner / power. The second char is its piece upper bound. |
-
-
-
-
-
-
-<a name="token.ChainPrimaryTokenSymbolSet"></a>
-
-* **ChainPrimaryTokenSymbolSet**
-The event of setting primary token.
-Input parameters:
-token_symbol.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| token_symbol | [string](#string) |  | The symbol of token. |
-
-
-
-
-
-
 <a name="token.ChangeTokenIssuerInput"></a>
 
 * **ChangeTokenIssuerInput**
@@ -357,131 +264,6 @@ symbol, new_token_issuer.
 | ----- | ---- | ----- | ----------- |
 | symbol | [string](#string) |  | The token symbol. |
 | new_token_issuer | [Address](#token.Address) |  | The new token issuer for change. |
-
-
-
-
-
-
-<a name="token.ChargeResourceTokenInput"></a>
-
-* **ChargeResourceTokenInput**
-The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-Input parameters:
-cost_dic, caller.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| cost_dic | [ChargeResourceTokenInput.CostDicEntry](#token.ChargeResourceTokenInput.CostDicEntry) | repeated | Collection of charge resource token, Symbol->Amount. |
-| caller | [Address](#token.Address) |  | The sender of the transaction. |
-
-
-
-
-
-
-<a name="token.ChargeResourceTokenInput.CostDicEntry"></a>
-
-* **ChargeResourceTokenInput.CostDicEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="token.ChargeTransactionFeesInput"></a>
-
-* **ChargeTransactionFeesInput**
-The function of collecting transaction fees.
-Input parameters:
-method_name, contract_address, contract_address, symbols_to_pay_tx_size_fee.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| method_name | [string](#string) |  | The method name of transaction. |
-| contract_address | [Address](#token.Address) |  | The contract address of transaction. |
-| transaction_size_fee | [int64](#int64) |  | The amount of transaction size fee. |
-| symbols_to_pay_tx_size_fee | [SymbolToPayTxSizeFee](#token.SymbolToPayTxSizeFee) | repeated | Transaction fee token information. |
-
-
-
-
-
-
-<a name="token.ChargeTransactionFeesOutput"></a>
-
-* **ChargeTransactionFeesOutput**
-The output of collecting transaction fees.
-Output parameters:
-success, charging_information.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| success | [bool](#bool) |  | Whether the charge was successful. |
-| charging_information | [string](#string) |  | The charging information. |
-
-
-
-
-
-
-<a name="token.CheckThresholdInput"></a>
-
-* **CheckThresholdInput**
-The function of checking the token threshold.
-Input parameters:
-sender, symbol_to_threshold, is_check_allowance.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| sender | [Address](#token.Address) |  | The sender of the transaction. |
-| symbol_to_threshold | [CheckThresholdInput.SymbolToThresholdEntry](#token.CheckThresholdInput.SymbolToThresholdEntry) | repeated | The threshold to set, Symbol->Threshold. |
-| is_check_allowance | [bool](#bool) |  | Whether to check the allowance. |
-
-
-
-
-
-
-<a name="token.CheckThresholdInput.SymbolToThresholdEntry"></a>
-
-* **CheckThresholdInput.SymbolToThresholdEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="token.ContractTotalResourceTokens"></a>
-
-* **ContractTotalResourceTokens**
-The function of resource tokens to charge.
-Input parameters:
-contract_address, tokens_map.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| contract_address | [Address](#token.Address) |  | The contract address. |
-| tokens_map | [TotalResourceTokensMap](#token.TotalResourceTokensMap) |  | Resource tokens to charge. |
 
 
 
@@ -501,28 +283,10 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | symbol | [string](#string) |  | The symbol of the token. |
 | token_name | [string](#string) |  | The full name of the token. |
 | total_supply | [int64](#int64) |  | The total supply of the token. |
-| decimals | [int32](#int32) |  | The precision of the token. |
+| decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
-| lock_white_list | [Address](#token.Address) | repeated | A whitelist address list used to lock tokens. |
-| issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| external_information | [CreateInput.ExternalInformationEntry](#token.CreateInput.ExternalInformationEntry) | repeated | The external information. |
-
-
-
-
-
-
-<a name="token.CreateInput.ExternalInformationEntry"></a>
-
-* **CreateInput.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -717,23 +481,6 @@ empty.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | empty | [string](#string) |  | Empty return. |
-
-
-
-
-
-
-<a name="token.ExtraTokenListModified"></a>
-
-* **ExtraTokenListModified**
-The event of token lift modified.
-Input parameters:
-symbol_list_to_pay_tx_size_fee.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbol_list_to_pay_tx_size_fee | [SymbolListToPayTxSizeFee](#token.SymbolListToPayTxSizeFee) |  | Transaction fee token information. |
 
 
 
@@ -943,57 +690,6 @@ hash.
 
 
 
-<a name="token.InitializeFromParentChainInput"></a>
-
-* **InitializeFromParentChainInput**
-The function of initializing side chain with the parent chain's information, when the side chain is start.
-Input parameters:
-resource_amount, registered_other_token_contract_addresses, creator.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| resource_amount | [InitializeFromParentChainInput.ResourceAmountEntry](#token.InitializeFromParentChainInput.ResourceAmountEntry) | repeated | The amount of resource. |
-| registered_other_token_contract_addresses | [InitializeFromParentChainInput.RegisteredOtherTokenContractAddressesEntry](#token.InitializeFromParentChainInput.RegisteredOtherTokenContractAddressesEntry) | repeated | The token contract addresses. |
-| creator | [Address](#token.Address) |  | The creator the side chain. |
-
-
-
-
-
-
-<a name="token.InitializeFromParentChainInput.RegisteredOtherTokenContractAddressesEntry"></a>
-
-* **InitializeFromParentChainInput.RegisteredOtherTokenContractAddressesEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [int32](#int32) |  |  |
-| value | [Address](#token.Address) |  |  |
-
-
-
-
-
-
-<a name="token.InitializeFromParentChainInput.ResourceAmountEntry"></a>
-
-* **InitializeFromParentChainInput.ResourceAmountEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int32](#int32) |  |  |
-
-
-
-
-
-
 <a name="token.Int32Value"></a>
 
 * **Int32Value**
@@ -1005,24 +701,6 @@ int_value.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | int_value | [int32](#int32) |  | Int32 value. |
-
-
-
-
-
-
-<a name="token.IsInWhiteListInput"></a>
-
-* **IsInWhiteListInput**
-The functio of checking whether the token is in the whitelist of an address, which can be called TransferFrom to transfer the token under the condition of not being credited.
-Input parameters:
-symbol, address.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbol | [string](#string) |  | The symbol of token. |
-| address | [Address](#token.Address) |  | The address to check. |
 
 
 
@@ -1107,59 +785,6 @@ merkle_path.
 
 
 
-<a name="token.RentalAccountBalanceInsufficient"></a>
-
-* **RentalAccountBalanceInsufficient**
-The event of charging rental fee(which is insufficient).
-Input parameters:
-symbol, amount.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbol | [string](#string) |  | The symbol of insufficient rental account balance. |
-| amount | [int64](#int64) |  | The balance of the account. |
-
-
-
-
-
-
-<a name="token.RentalCharged"></a>
-
-* **RentalCharged**
-The event of charging rental fee.
-Input parameters:
-symbol, amount.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbol | [string](#string) |  | The symbol of rental fee charged. |
-| amount | [int64](#int64) |  | The amount of rental fee charged. |
-
-
-
-
-
-
-<a name="token.SetPrimaryTokenSymbolInput"></a>
-
-* **SetPrimaryTokenSymbolInput**
-The function of setting the primary token of side chain.
-Input parameters:
-symbol.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbol | [string](#string) |  | The symbol of the token. |
-
-
-
-
-
-
 <a name="token.StringValue"></a>
 
 * **StringValue**
@@ -1171,42 +796,6 @@ string_value.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | string_value | [string](#string) |  | String value. |
-
-
-
-
-
-
-<a name="token.SymbolListToPayTxSizeFee"></a>
-
-* **SymbolListToPayTxSizeFee**
-The function of transaction fee weight calculation(list).
-Input parameters:
-symbols_to_pay_tx_size_fee.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| symbols_to_pay_tx_size_fee | [SymbolToPayTxSizeFee](#token.SymbolToPayTxSizeFee) | repeated | Transaction fee token information. |
-
-
-
-
-
-
-<a name="token.SymbolToPayTxSizeFee"></a>
-
-* **SymbolToPayTxSizeFee**
-The function of transaction fee weight calculation.
-Input parameters:
-token_symbol, base_token_weight, added_token_weight.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| token_symbol | [string](#string) |  | The symbol of token. |
-| base_token_weight | [int32](#int32) |  | The charge weight of primary token. |
-| added_token_weight | [int32](#int32) |  | The new added token charge weight. For example, the charge weight of primary Token is set to 1. The newly added token charge weight is set to 10. If the transaction requires 1 unit of primary token, the user can also pay for 10 newly added tokens. |
 
 
 
@@ -1226,27 +815,11 @@ symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id,
 | symbol | [string](#string) |  | The symbol of the token. |
 | token_name | [string](#string) |  | The full name of the token. |
 | total_supply | [int64](#int64) |  | The total supply of the token. |
-| decimals | [int32](#int32) |  | The precision of the token. |
+| decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| external_information | [TokenCreated.ExternalInformationEntry](#token.TokenCreated.ExternalInformationEntry) | repeated | The external information. |
-
-
-
-
-
-
-<a name="token.TokenCreated.ExternalInformationEntry"></a>
-
-* **TokenCreated.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -1267,28 +840,12 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | token_name | [string](#string) |  | The full name of the token. |
 | supply | [int64](#int64) |  | The current supply of the token. |
 | total_supply | [int64](#int64) |  | The total supply of the token. |
-| decimals | [int32](#int32) |  | The precision of the token. |
+| decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token, otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
 | issued | [int64](#int64) |  | The amount of issued tokens. |
-| external_information | [TokenInfo.ExternalInformationEntry](#token.TokenInfo.ExternalInformationEntry) | repeated | The external information. |
-
-
-
-
-
-
-<a name="token.TokenInfo.ExternalInformationEntry"></a>
-
-* **TokenInfo.ExternalInformationEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [string](#string) |  |  |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -1312,58 +869,6 @@ value
 
 
 
-<a name="token.TotalResourceTokensMap"></a>
-
-* **TotalResourceTokensMap**
-The function of processing resource token received.
-Output parameters:
-value.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [TotalResourceTokensMap.ValueEntry](#token.TotalResourceTokensMap.ValueEntry) | repeated | Resource token dictionary, Symbol->Amount. |
-
-
-
-
-
-
-<a name="token.TotalResourceTokensMap.ValueEntry"></a>
-
-* **TotalResourceTokensMap.ValueEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="token.TotalResourceTokensMaps"></a>
-
-* **TotalResourceTokensMaps**
-The function of processing resource token received.
-Output parameters:
-value, block_hash, block_hash.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [ContractTotalResourceTokens](#token.ContractTotalResourceTokens) | repeated | Resource tokens to charge. |
-| block_hash | [Hash](#token.Hash) |  | The hash of the block processing the transaction. |
-| block_height | [int64](#int64) |  | The height of the block processing the transaction. |
-
-
-
-
-
-
 <a name="token.TotalSupply"></a>
 
 * **TotalSupply**
@@ -1378,74 +883,6 @@ owner, symbol, amount, memo.
 | symbol | [string](#string) |  | The symbol of the transferred token. |
 | amount | [int64](#int64) |  | The amount of the transferred token. |
 | memo | [string](#string) |  | The memo. |
-
-
-
-
-
-
-<a name="token.TotalTransactionFeesMap"></a>
-
-* **TotalTransactionFeesMap**
-The functioon of handling the transaction fees charged by ChargeTransactionFees.
-Output parameters:
-value, block_hash, block_height.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| value | [TotalTransactionFeesMap.ValueEntry](#token.TotalTransactionFeesMap.ValueEntry) | repeated | Token dictionary that charge transaction fee, Symbol->Amount. |
-| block_hash | [Hash](#token.Hash) |  | The hash of the block processing the transaction. |
-| block_height | [int64](#int64) |  | The height of the block processing the transaction. |
-
-
-
-
-
-
-<a name="token.TotalTransactionFeesMap.ValueEntry"></a>
-
-* **TotalTransactionFeesMap.ValueEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int64](#int64) |  |  |
-
-
-
-
-
-
-<a name="token.TransactionFeeBill"></a>
-
-* **TransactionFeeBill**
-The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-Input parameters:
-fees_map.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| fees_map | [TransactionFeeBill.FeesMapEntry](#token.TransactionFeeBill.FeesMapEntry) | repeated | The transaction fee dictionary, Symbol->fee. |
-
-
-
-
-
-
-<a name="token.TransactionFeeBill.FeesMapEntry"></a>
-
-* **TransactionFeeBill.FeesMapEntry**
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
-| value | [int64](#int64) |  |  |
 
 
 
@@ -1612,18 +1049,37 @@ unlock_address, lock_id, symbol, amount, memo.
 
 
 
-<a name="token.UpdateCoefficientsInput"></a>
+<a name="token.external_information"></a>
 
-* **UpdateCoefficientsInput**
-The function of updating the coefficient of the transaction fee calculation formula.
-Input parameters:
-piece_numbers, coefficients.
+* **external_information**
+the extra information of token,
+Including standard preset fields and other fields that can be customized by the developers.
+Output parameters:
+description, image, properties, and other fields.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| piece_numbers | [int32](#int32) | repeated | The specify pieces gonna update. |
-| coefficients | [CalculateFeeCoefficients](#token.CalculateFeeCoefficients) |  | Coefficients of one single type. |
+| __description | [string](#string) |  | Describes the asset to which this token represents. |
+| __image | [string](#string) |  | A URI pointing to a resource with mime type image/* representing the asset to which this token represents. Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive. |
+| __properties | [string](#string) | repeated | Arbitrary set of attributes. |
+| user_define | [external_information.UserDefineEntry](#token.external_information.UserDefineEntry) | repeated | Aimed at Non-Fungible Token, which has its own identification. showing like car->porsche101. |
+
+
+
+
+
+
+<a name="token.external_information.UserDefineEntry"></a>
+
+* **external_information.UserDefineEntry**
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
 
 
 
@@ -1632,25 +1088,10 @@ piece_numbers, coefficients.
  <!-- end messages -->
 
 ### Others
-
-<a name="token.FeeTypeEnum"></a>
-
-* **FeeTypeEnum**
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| READ | 0 |  |
-| STORAGE | 1 |  |
-| WRITE | 2 |  |
-| TRAFFIC | 3 |  |
-| TX | 4 |  |
-
-
  <!-- end enums -->
 
 
-<a name="contract/token_contract.proto-extensions"></a>
+<a name="IEEE-P3207-Digital-Asset-Identification/contract/token_contract.proto-extensions"></a>
 
 * **File-level Extensions**
 | Extension | Type | Base | Number | Description |
@@ -1692,8 +1133,12 @@ piece_numbers, coefficients.
 Bibliographical references are resources that provide additional or helpful material but do not need to be
 understood or used to implement this standard. Reference to these resources is made for informational use only.
 
-<span id="B1">[B1] ISO 22739:2020(en), Blockchain and distributed ledger technologies—Vocabulary.</span>
+<span id="B1">[B1] ISO 22739:2020(en), Blockchain and distributed ledger technologies - Vocabulary.</span>
 
 <span id="B2">[B2] ERC-20 Token Standard.</span>
 
 <span id="B3">[B3] ERC-721 Token Standard.</span>
+
+<span id="B4">[B4] GB/T 19488.1-2004.</span>
+
+<span id="B5">[B5] GB/T 18391.1-2002.</span>

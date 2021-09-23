@@ -44,11 +44,14 @@ extend google.protobuf.FieldOptions {
 }
 
 service TokenContract {
-    // Create a new token.
+    // Creating a new token serves as a user's proof of interest. 
+    // The token can be circulated in the blockchain system with their unique characteristics,
+    // such as, Encryption, immutable, uniqueness.
+    // And token has certain economic value.
     rpc Create (CreateInput) returns (Empty) {
     }
     
-    // Issuing some amount of tokens to an address is the action of increasing that addresses balance 
+    // Issuing some amount of tokens to an address is the action of increasing that address' balance 
     // for the given token. The total amount of issued tokens must not exceed the total supply of the token 
     // and only the issuer (creator) of the token can issue tokens. 
     // Issuing tokens effectively increases the circulating supply.
@@ -74,177 +77,79 @@ service TokenContract {
     }
 
     // The approve action increases the allowance from the Sender to the Spender address, 
-    // enabling the Spender to call TransferFrom.
+    // enabling the Spender to call TransferFrom and approve a certain amount of transactions
+    // and to extract a certain amount of money.
     rpc Approve (ApproveInput) returns (Empty) {
     }
     
-    // This is the reverse operation for Approve, it will decrease the allowance.
+    // This is the reverse operation for Approve, it will decrease the allowance 
+    // and revoke permission from operation of Approve.
     rpc UnApprove (UnApproveInput) returns (Empty) {
     }
     
-    // This method can be used to lock tokens.
+    // This method is used to lock tokens with specific symbol.
     rpc Lock (LockInput) returns (Empty) {
     }
     
-    // This is the reverse operation of locking, it un-locks some previously locked tokens.
+    // This is the reverse operation of Lock, which un-locks some previously locked tokens.
     rpc Unlock (UnlockInput) returns (Empty) {
     }
     
-    // This action will burn the specified amount of tokens, removing them from the token’s Supply.
+    // This action will burn the specified amount of tokens which are burnable,
+    // and remove them from the token’s Supply.
     rpc Burn (BurnInput) returns (Empty) {
     }
     
-    // Change the issuer of the specified token. Only the original issuer can change it.
+    // Change the issuer of the specified token.
+    // Only the original issuer can change it.
     rpc ChangeTokenIssuer (ChangeTokenIssuerInput) returns (Empty) {
     }
-
-    // Set the primary token of side chain.
-    rpc SetPrimaryTokenSymbol (SetPrimaryTokenSymbolInput) returns (Empty) {
-    }
     
-    // This interface is used for cross-chain transfer.
+    // This interface is a cross-chain transfer transation.
     rpc CrossChainTransfer (CrossChainTransferInput) returns (Empty) {
     }
     
-    // This method is used to receive cross-chain transfers.
+    // This method is used to receive cross-chain transfer transactions.
     rpc CrossChainReceiveToken (CrossChainReceiveTokenInput) returns (Empty) {
     }
     
-    // The side chain creates tokens.
+    // This method is to deal with the info of tokens created by other chains,
+    // which exist in transfer transactions.
     rpc CrossChainCreateToken(CrossChainCreateTokenInput) returns (Empty) {        
-    }
-    
-    // When the side chain is started, the side chain is initialized with the parent chain information.
-    rpc InitializeFromParentChain (InitializeFromParentChainInput) returns (Empty) {
-    }
-
-    // Handle the transaction fees charged by ChargeTransactionFees.
-    rpc ClaimTransactionFees (TotalTransactionFeesMap) returns (Empty) {
-    }
-    
-    // Used to collect transaction fees.
-    rpc ChargeTransactionFees (ChargeTransactionFeesInput) returns (ChargeTransactionFeesOutput) {
-    }
-
-    // Check the token threshold.
-    rpc CheckThreshold (CheckThresholdInput) returns (Empty) {
-    }
-
-    // Initialize coefficients of every type of tokens supporting charging fee.
-    rpc InitialCoefficients (Empty) returns (Empty){
-    }
-    
-    // Processing resource token received.
-    rpc DonateResourceToken (TotalResourceTokensMaps) returns (Empty) {
-    }
-    
-    // A transaction resource fee is charged to implement the ACS8 standards.
-    rpc ChargeResourceToken (ChargeResourceTokenInput) returns (Empty) {
-    }
-    
-    // Verify that the resource token are sufficient.
-    rpc CheckResourceToken (Empty) returns (Empty) {
-    }
-    
-    // Set the list of tokens to pay transaction fees.
-    rpc SetSymbolsToPayTxSizeFee (SymbolListToPayTxSizeFee) returns (Empty){
-    }
-    
-    // Update the coefficient of the transaction fee calculation formula.
-    rpc UpdateCoefficientsForSender (UpdateCoefficientsInput) returns (Empty) {
-    }
-    
-    // Update the coefficient of the transaction fee calculation formula.
-    rpc UpdateCoefficientsForContract (UpdateCoefficientsInput) returns (Empty) {
-    }
-    
-    // This method is used to initialize the governance organization for some functions, 
-    // including: the coefficient of the user transaction fee calculation formula, 
-    // the coefficient of the contract developer resource fee calculation formula, and the side chain rental fee.
-    rpc InitializeAuthorizedController(Empty) returns (Empty){
-    }
-
-    // Query token information.
-    rpc GetTokenInfo (GetTokenInfoInput) returns (TokenInfo) {
-        option (is_view) = true;
-    }
-    
-    // Query native token information.
-    rpc GetNativeTokenInfo (Empty) returns (TokenInfo) {
-        option (is_view) = true;
-    }
-    
-    // Query resource token information.
-    rpc GetResourceTokenInfo (Empty) returns (TokenInfoList) {
-        option (is_view) = true;
-    }
-    
-    // Query the balance at the specified address.
-    rpc GetBalance (GetBalanceInput) returns (GetBalanceOutput) {
-        option (is_view) = true;
-    }
-
-    // Batch query the balance at the specified address.
-    rpc GetBalanceBatch (GetBalanceBatchInput) returns (GetBalanceBatchOutput) {
-    option (is_view) = true;
-        }
-
-    // Query the account's allowance for other addresses
-    rpc GetAllowance (GetAllowanceInput) returns (GetAllowanceOutput) {
-        option (is_view) = true;
-    }
-    
-    // Check whether the token is in the whitelist of an address, 
-    // which can be called TransferFrom to transfer the token under the condition of not being credited.
-    rpc IsInWhiteList (IsInWhiteListInput) returns (BoolValue) {
-        option (is_view) = true;
-    }
-    
-    // Query the information for a lock.
-    rpc GetLockedAmount (GetLockedAmountInput) returns (GetLockedAmountOutput) {
-        option (is_view) = true;
-    }
-    
-    // Query the address of receiving token in cross-chain transfer.
-    rpc GetCrossChainTransferTokenContractAddress (GetCrossChainTransferTokenContractAddressInput) returns (Address) {
-        option (is_view) = true;
-    }
-    
-    // Query the name of the primary Token.
-    rpc GetPrimaryTokenSymbol (Empty) returns (StringValue) {
-        option (is_view) = true;
-    }
-    
-    // Query the coefficient of the transaction fee calculation formula.
-    rpc GetCalculateFeeCoefficientsForContract (Int32Value) returns (CalculateFeeCoefficients) {
-        option (is_view) = true;
-    }
-
-    // Query the coefficient of the transaction fee calculation formula.
-    rpc GetCalculateFeeCoefficientsForSender (Empty) returns (CalculateFeeCoefficients) {
-        option (is_view) = true;
-    }
-    
-    // Query tokens that can pay transaction fees.
-    rpc GetSymbolsToPayTxSizeFee (Empty) returns (SymbolListToPayTxSizeFee){
-        option (is_view) = true;
-    }
-    
-    // Query the hash of the last input of ClaimTransactionFees.
-    rpc GetLatestTotalTransactionFeesMapHash (Empty) returns (Hash){
-        option (is_view) = true;
-    }
-    
-    // Query the hash of the last input of DonateResourceToken.
-    rpc GetLatestTotalResourceTokensMapsHash (Empty) returns (Hash){
-        option (is_view) = true;
-    }
-    rpc IsTokenAvailableForMethodFee (StringValue) returns (BoolValue) {
-        option (is_view) = true;
     }
 
     // This interface is used for batch cross-chain transfer.
     rpc CrossChainTransferBatch (CrossChainTransferBatchInput) returns (Empty) {
+    }
+
+    // View method to query token information.
+    rpc GetTokenInfo (GetTokenInfoInput) returns (TokenInfo) {
+        option (is_view) = true;
+    }
+    
+    // View method to query the balance at the specified address.
+    rpc GetBalance (GetBalanceInput) returns (GetBalanceOutput) {
+        option (is_view) = true;
+    }
+
+    // View method to batch query the balance at the specified address.
+    rpc GetBalanceBatch (GetBalanceBatchInput) returns (GetBalanceBatchOutput) {
+    option (is_view) = true;
+        }
+
+    // View method to query the account's allowance for other addresses
+    rpc GetAllowance (GetAllowanceInput) returns (GetAllowanceOutput) {
+        option (is_view) = true;
+    }
+    
+    // View method to query the information for a lock.
+    rpc GetLockedAmount (GetLockedAmountInput) returns (GetLockedAmountOutput) {
+        option (is_view) = true;
+    }
+    
+    // View method to query the address of receiving token in cross-chain transfer.
+    rpc GetCrossChainTransferTokenContractAddress (GetCrossChainTransferTokenContractAddressInput) returns (Address) {
+        option (is_view) = true;
     }
 }
 
@@ -260,7 +165,9 @@ message TokenInfo {
     int64 supply = 3;
     // The total supply of the token.
     int64 total_supply = 4;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token,
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 5;
     // The address that created the token.
     Address issuer = 6;
@@ -270,8 +177,29 @@ message TokenInfo {
     int32 issue_chain_id = 8;
     // The amount of issued tokens.
     int64 issued = 9;
-    // The external information.
-    map<string, string> external_information = 10;
+    // The external information aimed to different kinds of token.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like car->porsche101.
+    external_information exter_info = 10;
+}
+
+// the extra information of token,
+// Including standard preset fields and other fields that can be customized by the developers.
+// Output parameters:
+// description, image, properties, and other fields.
+message external_information{
+    // Describes the asset to which this token represents.
+    string __description=1;
+    // A URI pointing to a resource with mime type image/* representing the asset to which this token represents. 
+    // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
+    string __image=2;
+    // Arbitrary set of attributes.
+    repeated string __properties=3;
+    // Aimed at Non-Fungible Token, which has its own identification.
+    // showing like car->porsche101.
+    map<string,string> user_define=4;
 }
 
 // The function of creating a token.
@@ -284,26 +212,20 @@ message CreateInput {
     string token_name = 2;
     // The total supply of the token.
     int64 total_supply = 3;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 4;
     // The address that created the token.
     Address issuer = 5;
     // A flag indicating if this token is burnable.
     bool is_burnable = 6;
-    // A whitelist address list used to lock tokens.
-    repeated Address lock_white_list = 7;
-    // The chain id of the token.
-    int32 issue_chain_id = 8;
-    // The external information.
-    map<string, string> external_information = 9;
-}
-
-// The function of setting the primary token of side chain.
-// Input parameters:
-// symbol.
-message SetPrimaryTokenSymbolInput {
-    // The symbol of the token.
-    string symbol = 1;
+    // The external information aimed to different kinds of token.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like car->porsche101.
+    external_information exter_info= 7;
 }
 
 // The function of issuing some amount of tokens to an address. 
@@ -426,36 +348,6 @@ message BurnInput {
     int64 amount = 2;
 }
 
-// The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-// Input parameters:
-// cost_dic, caller.
-message ChargeResourceTokenInput {
-    // Collection of charge resource token, Symbol->Amount.
-    map<string, int64> cost_dic = 1;
-    // The sender of the transaction.
-    Address caller = 2;
-}
-
-// The function of charging a transaction resource fee(Implemented from the ACS8 standards).
-// Input parameters:
-// fees_map.
-message TransactionFeeBill {
-    // The transaction fee dictionary, Symbol->fee.
-    map<string, int64> fees_map = 1;
-}
-
-// The function of checking the token threshold.
-// Input parameters:
-// sender, symbol_to_threshold, is_check_allowance.
-message CheckThresholdInput {
-    // The sender of the transaction.
-    Address sender = 1;
-    // The threshold to set, Symbol->Threshold.
-    map<string, int64> symbol_to_threshold = 2;
-    // Whether to check the allowance.
-    bool is_check_allowance = 3;
-}
-
 // The function of querying token information.
 // Input parameters:
 // symbol.
@@ -565,71 +457,6 @@ message CrossChainReceiveTokenInput {
     MerklePath merkle_path = 4;
 }
 
-// The functio of checking whether the token is in the whitelist of an address, which can be called TransferFrom to transfer the token under the condition of not being credited.
-// Input parameters:
-// symbol, address.
-message IsInWhiteListInput {
-    // The symbol of token. 
-    string symbol = 1;
-    // The address to check.
-    Address address = 2;
-}
-
-// The function of transaction fee weight calculation.
-// Input parameters:
-// token_symbol, base_token_weight, added_token_weight.
-message SymbolToPayTxSizeFee{
-    // The symbol of token. 
-    string token_symbol = 1;
-    // The charge weight of primary token.
-    int32 base_token_weight = 2;
-    // The new added token charge weight. For example, the charge weight of primary Token is set to 1. 
-    // The newly added token charge weight is set to 10. If the transaction requires 1 unit of primary token, 
-    // the user can also pay for 10 newly added tokens.
-    int32 added_token_weight = 3;
-}
-
-// The function of transaction fee weight calculation(list).
-// Input parameters:
-// symbols_to_pay_tx_size_fee.
-message SymbolListToPayTxSizeFee{
-    // Transaction fee token information.
-    repeated SymbolToPayTxSizeFee symbols_to_pay_tx_size_fee = 1;
-}
-
-// The function of collecting transaction fees.
-// Input parameters:
-// method_name, contract_address, contract_address, symbols_to_pay_tx_size_fee.
-message ChargeTransactionFeesInput {
-    // The method name of transaction.
-    string method_name = 1;
-    // The contract address of transaction.
-    Address contract_address = 2;
-    // The amount of transaction size fee.
-    int64 transaction_size_fee = 3;
-    // Transaction fee token information.
-    repeated SymbolToPayTxSizeFee symbols_to_pay_tx_size_fee = 4;
-}
-
-// The output of collecting transaction fees.
-// Output parameters:
-// success, charging_information.
-message ChargeTransactionFeesOutput {
-    // Whether the charge was successful.
-    bool success = 1;
-    // The charging information.
-    string charging_information = 2;
-}
-
-// The event of token lift modified.
-// Input parameters:
-// symbol_list_to_pay_tx_size_fee.
-message ExtraTokenListModified {
-    option (is_event) = true;
-    // Transaction fee token information.
-    SymbolListToPayTxSizeFee symbol_list_to_pay_tx_size_fee = 1;
-}
-
 // The function of querying the information for a lock.
 // Input parameters:
 // address, symbol, lock_id. 
@@ -684,108 +511,6 @@ message CrossChainCreateTokenInput {
     bytes transaction_bytes = 3;
     // The merkle path created from the transaction that created the transaction.
     MerklePath merkle_path = 4;
-}
-
-// The function of initializing side chain with the parent chain's information, when the side chain is start.
-// Input parameters:
-// resource_amount, registered_other_token_contract_addresses, creator.
-message InitializeFromParentChainInput {
-    // The amount of resource.
-    map<string, int32> resource_amount = 1;
-    // The token contract addresses.
-    map<int32, Address> registered_other_token_contract_addresses = 2;
-    // The creator the side chain.
-    Address creator = 3;
-}
-
-// The function of updating the coefficient of the transaction fee calculation formula.
-// Input parameters:
-// piece_numbers, coefficients.
-message UpdateCoefficientsInput {
-    // The specify pieces gonna update.
-    repeated int32 piece_numbers = 1;
-    // Coefficients of one single type.
-    CalculateFeeCoefficients coefficients = 2;
-}
-
-enum FeeTypeEnum {
-    READ = 0;
-    STORAGE = 1;
-    WRITE = 2;
-    TRAFFIC = 3;
-    TX = 4;
-}
-
-// The function of Calculating piece fees.
-// Output parameters:
-// value.
-message CalculateFeePieceCoefficients {
-    // Coefficients of one single piece.
-    // The first char is its type: liner / power.
-    // The second char is its piece upper bound.
-    repeated int32 value = 1;
-}
-
-// The function of Calculating fees.
-// Output parameters:
-// fee_token_type, piece_coefficients_list.
-message CalculateFeeCoefficients {
-    // The resource fee type, like READ, WRITE, etc.
-    int32 fee_token_type = 1;
-    // Coefficients of one single piece.
-    repeated CalculateFeePieceCoefficients piece_coefficients_list = 2;
-}
-
-// The function of Calculating all fees.
-// Output parameters:
-// value.
-message AllCalculateFeeCoefficients {
-    // The coefficients of fee Calculation.
-    repeated CalculateFeeCoefficients value = 1;
-}
-
-// The functioon of handling the transaction fees charged by ChargeTransactionFees.
-// Output parameters:
-// value, block_hash, block_height.
-message TotalTransactionFeesMap
-{
-    // Token dictionary that charge transaction fee, Symbol->Amount.
-    map<string, int64> value = 1;
-    // The hash of the block processing the transaction.
-    Hash block_hash = 2;
-    // The height of the block processing the transaction.
-    int64 block_height = 3;
-}
-
-// The function of processing resource token received.
-// Output parameters:
-// value, block_hash, block_hash.
-message TotalResourceTokensMaps {
-    // Resource tokens to charge.
-    repeated ContractTotalResourceTokens value = 1;
-    // The hash of the block processing the transaction.
-    Hash block_hash = 2;
-    // The height of the block processing the transaction.
-    int64 block_height = 3;
-}
-
-// The function of resource tokens to charge.
-// Input parameters:
-// contract_address, tokens_map.
-message ContractTotalResourceTokens {
-    // The contract address.
-    Address contract_address = 1;
-    // Resource tokens to charge.
-    TotalResourceTokensMap tokens_map = 2;
-}
-
-// The function of processing resource token received.
-// Output parameters:
-// value.
-message TotalResourceTokensMap
-{
-    // Resource token dictionary, Symbol->Amount.
-    map<string, int64> value = 1;
 }
 
 // The function of changing the issuer of the specified token.
@@ -860,46 +585,6 @@ message Burned
     int64 amount = 3;
 }
 
-// The event of setting primary token.
-// Input parameters:
-// token_symbol.
-message ChainPrimaryTokenSymbolSet {
-    option (is_event) = true;
-    // The symbol of token. 
-    string token_symbol = 1;
-}
-
-// The event of updating calculate fee algorithm.
-// Input parameters:
-// all_type_fee_coefficients.
-message CalculateFeeAlgorithmUpdated {
-    option (is_event) = true;
-    // All calculate fee coefficients after modification.
-    AllCalculateFeeCoefficients all_type_fee_coefficients = 1;
-}
-
-// The event of charging rental fee.
-// Input parameters:
-// symbol, amount.
-message RentalCharged {
-    option (is_event) = true;
-    // The symbol of rental fee charged.
-    string symbol = 1;
-    // The amount of rental fee charged.
-    int64 amount = 2;
-}
-
-// The event of charging rental fee(which is insufficient).
-// Input parameters:
-// symbol, amount.
-message RentalAccountBalanceInsufficient {
-    option (is_event) = true;
-    // The symbol of insufficient rental account balance.
-    string symbol = 1;
-    // The balance of the account.
-    int64 amount = 2;
-}
-
 // The event of creating token.
 // Input parameters:
 // symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id, external information..
@@ -911,7 +596,9 @@ message TokenCreated {
     string token_name = 2;
     // The total supply of the token.
     int64 total_supply = 3;
-    // The precision of the token.
+    // Precision of token. 
+    // When decimal =0, the token created belongs to Non-Fungible Token
+    // otherwise, it belongs to Fungible Token. 
     int32 decimals = 4;
     // The address that created the token.
     Address issuer = 5;
@@ -919,8 +606,12 @@ message TokenCreated {
     bool is_burnable = 6;
     // The chain id of the token.
     int32 issue_chain_id = 7;
-    // The external information.
-    map<string, string> external_information = 8;
+    // The external information aimed to different kinds of token.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
+    // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
+    // if the token belongs to Fungible Token, it uses ERC-20protocal.
+    // Showing like car->porsche101.
+    external_information exter_info = 10;
 }
 
 // The event of issuing token.
