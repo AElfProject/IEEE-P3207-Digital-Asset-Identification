@@ -285,7 +285,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | decimals | [int32](#int32) |  | Precision of token. When decimal =0, the token created belongs to Non-Fungible Token otherwise, it belongs to Fungible Token. |
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -818,7 +818,7 @@ symbol, token_name, total_supply, decimals, issuer, is_burnable, issue_chain_id,
 | issuer | [Address](#token.Address) |  | The address that created the token. |
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -844,7 +844,7 @@ symbol, token_name, supply, total_supply, decimals, issuer, is_burnable, issue_c
 | is_burnable | [bool](#bool) |  | A flag indicating if this token is burnable. |
 | issue_chain_id | [int32](#int32) |  | The chain id of the token. |
 | issued | [int64](#int64) |  | The amount of issued tokens. |
-| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Double underlines indicates the reserved field, with which you can define them by yourself. for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
+| exter_info | [external_information](#token.external_information) |  | The external information aimed to different kinds of token. Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer, for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity, if the token belongs to Fungible Token, it uses ERC-20protocal. Showing like car->porsche101. |
 
 
 
@@ -1131,4 +1131,3 @@ understood or used to implement this standard. Reference to these resources is m
 <span id="B4">[B4] GB/T 19488.1-2004.</span>
 
 <span id="B5">[B5] GB/T 18391.1-2002.</span>
-

@@ -178,7 +178,7 @@ message TokenInfo {
     // The amount of issued tokens.
     int64 issued = 9;
     // The external information aimed to different kinds of token.
-    // Double underlines indicates the reserved field, with which you can define them by yourself.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
     // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
     // Showing like car->porsche101.
@@ -222,7 +222,7 @@ message CreateInput {
     // A flag indicating if this token is burnable.
     bool is_burnable = 6;
     // The external information aimed to different kinds of token.
-    // Double underlines indicates the reserved field, with which you can define them by yourself.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
     // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
     // Showing like car->porsche101.
@@ -608,7 +608,7 @@ message TokenCreated {
     // The chain id of the token.
     int32 issue_chain_id = 7;
     // The external information aimed to different kinds of token.
-    // Double underlines indicates the reserved field, with which you can define them by yourself.
+    // Fields starting with a double underscore are standard custom fields. Other fields can be customized by the developer.
     // for example, if the token belongs to Non-Fungible Token, it uses ERC-721 protocal, and it has its own identity,
     // if the token belongs to Fungible Token, it uses ERC-20protocal.
     // Showing like car->porsche101.
